@@ -23,7 +23,7 @@ namespace MyGED\Core\FileSystem;
 use MyGED\Core\Exceptions as AppExceptions;
 
 /**
- * Description of filesystem
+ * Filesystem Management - ToolsBox
  *
  * @author polux
  */

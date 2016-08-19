@@ -3,7 +3,8 @@
 /**
  * Default including framework definition
  * 
- * @todo Autoload ...
+ * @package MyGED
+ * @subpackage Core
  */
 require_once 'classes/app.class.php';
 
