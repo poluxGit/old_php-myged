@@ -6,7 +6,7 @@
  * @author polux <polux@poluxfr.org>
  */
 
-include_once './application/app.inc.php';
+include_once 'appli.inc.php';
 
 use MyGED\Application as Application;
 use MyGED\Vault as Vault; 
@@ -14,12 +14,10 @@ use MyGED\Vault as Vault;
 // Application init!
 Application\App::initApplication();
 
-
-
 echo "DISPLAYING ALL DOCUMENTS : <BR/>";
-
+$lODoc = new \MyGED\Business\Categorie();
 echo "<pre>";
-print_r(\MyGED\Business\Document::getAllClassItemsData());
+print_r(\MyGED\Business\Categorie::getAllClassItemsData());
 echo "</pre>";
 
 

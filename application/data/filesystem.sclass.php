@@ -55,6 +55,14 @@ class FileSystem {
         rmdir($dirPath);
     }
     
+    /**
+     * Copy an element to another
+     * 
+     * @param string    $pStrSource     Source file to copy.
+     * @param string    $pStrTarget     Target file.
+     * @throws AppExceptions\GenericException
+     * @throws \Exception
+     */
     public static function filecopy($pStrSource,$pStrTarget)
     {
          try {
@@ -72,4 +80,17 @@ class FileSystem {
             throw new AppExceptions\GenericException('FILE_COPY_ERR',$lArrOptions);
         }
     }
+    
+    /**
+     * Returns extension from filename
+     * 
+     * @param string $pStrFilepath Filepath
+     * @return string File extension
+     */
+    public static function getExtensionFromPath($pStrFilepath)
+    {
+        return pathinfo($pStrFilepath, PATHINFO_EXTENSION);
+    }
+    
+    
 }

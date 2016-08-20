@@ -72,9 +72,17 @@ class Categorie extends Core\AbstractDBObject {
      * 
      * @return array(mixed)
      */
-    public static function getAllClassItemsData($pStrWhereCondition)
+    public static function getAllClassItemsData($pStrWhereCondition=null)
     {
         return static::getAllItems(App::getAppDabaseObject(), $pStrWhereCondition);
     }//end getAllClassItemsData()
+    
+     /**
+     * Delete Data
+     */
+    public function delete()
+    {
+        return parent::deleteDataToDB(App::getAppDabaseObject());
+    }//end store()
     
 }//end class

@@ -36,14 +36,12 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
      * This method is called before a test is executed.
      */
     protected function setUp()
-    {
-        
-        
+    {   
         App::setAppParam('TEMPLATES_ROOT', '/home/polux/Projects/php-myged/application/templates');
         App::setAppParam('SQLITE_DB_FILEPATH', '/home/polux/Projects/php-myged/data/app.db');
         App::setAppParam('VAULT_ROOT', '/home/polux/Projects/php-myged/data/vault');
         
-        App::resetApplicationDBFile();
+        //App::resetApplicationDBFile();
         
         // Database init...
         App::initDatabase();
@@ -125,8 +123,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $lObjDoc2->store();
         
         // Reload same doc as new Object !
-        $lObjDoc3 = new Document($lStrIdDoc);
-        
+        $lObjDoc3 = new Document($lStrIdDoc);        
         
         // Title validating!
         $this->assertEquals($lObjDoc3->getTitle(), $lStrNewTitre, 'Title updated invalid ! #1');
@@ -138,7 +135,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     
     /**
      * @covers MyGED\Business\Document::getDocById
-     * @todo   Implement testGetDocById().
+     * @test
      */
     public function testGetDocById()
     {

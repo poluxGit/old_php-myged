@@ -231,9 +231,60 @@ abstract class AbstractDBObject
 
         return true;
     }//end storeDataFromDB()
-
+    
+    
     /**
-     * Returns an attribute value
+     * Store data into Database.
+     *
+     * @return bool
+     */
+    protected function deleteDataToDB($pObjPDODb=null)
+    {
+        try {
+            
+            // PDO Db Object
+            if(!is_null($pObjPDODb))
+            {
+                $lObjDb = $pObjPDODb;
+            }
+            elseif (!is_null($this->_oPdoDBHandler)) {
+                $lObjDb = $this->_oPdoDBHandler;
+            }
+            else
+            {
+                $lArrOptions = array(
+                    'msg' => "Error during storage into SQL DB - No DB Handler defined !"
+                );
+                throw new AppExceptions\GenericException('APP_DB_NO_DB_HANDLER', $lArrOptions);
+            }
+            
+             
+            $lStrSQL = $this->generateSQLDeleteOrder();
+            $lObjPdoStat = $lObjDb->query($lStrSQL);
+
+            if (($lObjPdoStat!=false)?($lObjPdoStat->rowCount() != 1):true ) {
+                $lArrOptions = array(
+                    'msg' => sprintf(
+                        "Error during storage into SQL DB (ID:%s) - Number of rows impacted : %d - (SQL query : '%s') - PDO Last error : %s",
+                        $this->getId(),
+                        ($lObjPdoStat!=false)?($lObjPdoStat->rowCount()):'0',
+                        $lStrSQL,
+                        sprintf("%s - %s",$lObjDb->errorInfo()[0],$lObjDb->errorInfo()[2])
+                    )
+                );
+                throw new AppExceptions\GenericException('APP_DB_STORE_SQL -FAILED', $lArrOptions);
+            }
+            
+        } catch (\Exception $ex) {
+            $lArrOptions = array('msg' => $ex->getMessage());
+            throw new AppExceptions\GenericException('APP_DB_STORE_FAILED', $lArrOptions);
+        }
+
+        return true;
+    }//end storeDataFromDB()
+    
+    /**
+     * Returns an attribute value, null if not found
      *
      * @param string $pStrAttrName
      *
@@ -245,11 +296,35 @@ abstract class AbstractDBObject
         if (array_key_exists($pStrAttrName, $this->_aFieldValuesUpdated)) {
             $lStrResult = $this->_aFieldValuesUpdated[$pStrAttrName];
         } else {
-            $lStrResult = $this->_aFieldValues[$pStrAttrName];
+            if(array_key_exists($pStrAttrName, $this->_aFieldValues))
+            {
+                $lStrResult = $this->_aFieldValues[$pStrAttrName];
+            }
+        }
+        
+        if(empty($lStrResult))
+        {
+            $lStrResult = null;
         }
 
         return $lStrResult;
     }
+    
+     /**
+     * Returns an array with all field value.
+     *
+     * @return array(fieldname => fieldvalue)
+     */
+    public function getAllAttributeValueToArray()
+    {
+        
+        $lStrArray = array();
+        $lStrArray = array_merge($lStrArray,$this->_aFieldValues,$this->_aFieldValuesUpdated);
+        
+        return $lStrArray;
+    }
+    
+    
 
     /**
      * Defines an attribute value.
@@ -280,25 +355,12 @@ abstract class AbstractDBObject
      * @return array(mixed)
      * @throws AppExceptions\GenericException
      */
-    protected static function getAllItems($pStrWhereCondition=null,$pObjPDODb=null)
+    protected static function getAllItems($pObjPDODb,$pStrWhereCondition=null)
     {
        try {
             // PDO Db Object
-            if(!is_null($pObjPDODb))
-            {
-                $lObjDb = $pObjPDODb;
-            }
-            elseif (!is_null($this->_oPdoDBHandler)) {
-                $lObjDb = $this->_oPdoDBHandler;
-            }
-            else
-            {
-                $lArrOptions = array(
-                    'msg' => "Error during storage into SQL DB - No DB Handler defined !"
-                );
-                throw new AppExceptions\GenericException('APP_DB_NO_DB_HANDLER', $lArrOptions);
-            }
-
+            $lObjDb = $pObjPDODb;
+            
             $lStrSQL = self::generateSQLSelectOrder();
             
             if(!is_null($pStrWhereCondition)){
@@ -308,7 +370,7 @@ abstract class AbstractDBObject
 
             if(!$lObjPdoStat)
             {
-                $lArrOptions = array('msg' => $lObjDb->errorInfo()[2]);
+                $lArrOptions = array('msg' => $lObjDb->errorInfo()[2]." - ".$lStrSQL);
                 throw new AppExceptions\GenericException('APP_DB_LOAD_PDO_FAIL', $lArrOptions);
             }
             else {
@@ -474,7 +536,7 @@ abstract class AbstractDBObject
      *
      * @return string SELECT Query for all object
      */
-    protected function generateSQLSelectOrder()
+    protected static function generateSQLSelectOrder()
     {
         return sprintf(
                 'SELECT %s FROM %s ',
@@ -521,10 +583,22 @@ abstract class AbstractDBObject
     protected function generateSQLDeleteOrder()
     {
         return sprintf(
-                'DELETE %s %s',
+                'DELETE FROM %s %s',
                 self::$_sTableName,
                 $this->getSQLWhereCondition()
         );
+    }
+    
+    /**
+     * Returns TRUE if Fieldname defined for current class.
+     * 
+     * @param string $pStrFieldName Name of the field to check.
+     * 
+     * @return boolean  TRUE if Fieldanme defined elseif FALSE
+     */
+    public function isValidFieldForClass($pStrFieldName)
+    {
+        return !empty(array_search($pStrFieldName, static::$_aFieldNames,true));
     }
 
     /**
@@ -550,5 +624,13 @@ abstract class AbstractDBObject
      * @abstract
      */
     abstract public function store();
+    
+     /**
+     * Delete data into database
+     * 
+     * @return boolean TRUE if OK
+     * @abstract
+     */
+    abstract public function delete();
     
 }//end class

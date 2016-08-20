@@ -63,7 +63,7 @@ class Document extends Core\AbstractDBObject {
      * 
      * @return array(mixed)
      */
-    public static function getAllClassItemsData($pStrWhereCondition)
+    public static function getAllClassItemsData($pStrWhereCondition=null)
     {
         return static::getAllItems(App::getAppDabaseObject(), $pStrWhereCondition);
     }//end getAllClassItemsData()
@@ -74,6 +74,16 @@ class Document extends Core\AbstractDBObject {
     public function store()
     {
         parent::storeDataToDB(App::getAppDabaseObject());
+    }//end store()
+    
+    
+    
+     /**
+     * Delete Data
+     */
+    public function delete()
+    {
+        return parent::deleteDataToDB(App::getAppDabaseObject());
     }//end store()
     
 }//end class

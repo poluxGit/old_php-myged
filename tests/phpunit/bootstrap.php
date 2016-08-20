@@ -20,6 +20,6 @@ ini_set(
 );
 
 // put your code here
-include '/home/polux/Projects/php-myged/application/app.inc.php';
+include '/home/polux/Projects/php-myged/appli.inc.php';
 
 
