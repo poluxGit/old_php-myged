@@ -1,2 +1,2 @@
 # php-myged
-My Ged
+My Personnal application to manage my documents.
