@@ -94,6 +94,7 @@ abstract class AbstractDBObject
                 $lArrOptions = array('msg' => 'Technical Error during laoding DBObject (id:'.$pStrUid);
                 throw new AppExceptions\GenericException('CORE_DB_LOAD_FAIL', $lArrOptions);
             }
+            
         } else {
             $this->_isNew = true;
         }
@@ -366,6 +367,9 @@ abstract class AbstractDBObject
             if(!is_null($pStrWhereCondition)){
                 $lStrSQL .= "WHERE ".$pStrWhereCondition;
             }
+            
+            //XXX echo $lStrSQL;
+            
             $lObjPdoStat = $lObjDb->query($lStrSQL);
 
             if(!$lObjPdoStat)
@@ -382,17 +386,114 @@ abstract class AbstractDBObject
         }
 
         return $lArrData;
-    }
+    }//end getAllItems()
+   
+    /**
+     * Get an array resulting of an SQL Query
+     * 
+     * @throws MyGED\Core\Exceptions\GenericException
+     * 
+     * @param string    $pStrSQL    SQL SELECT QUERY
+     * @param \PDO      $pObjPDODb
+     *
+     * @return array(mixed)  Array of data 
+     */
+    public function getDataFromSQLQuery($pStrSQL,$pObjPDODb=null)
+    {
+        try {
+            // PDO Db Object
+            if(!is_null($pObjPDODb))
+            {
+                $lObjDb = $pObjPDODb;
+            }
+            elseif (!is_null($this->_oPdoDBHandler)) {
+                $lObjDb = $this->_oPdoDBHandler;
+            }
+            else
+            {
+                $lArrOptions = array(
+                    'msg' => "Error during loading from DB - No DB Handler defined !"
+                );
+                throw new AppExceptions\GenericException('APP_DB_NO_DB_HANDLER', $lArrOptions);
+            }
 
+            $lStrSQL = $pStrSQL;
+
+            $lObjPdoStat = $lObjDb->query($lStrSQL);
+
+            if(!$lObjPdoStat)
+            {
+                $lArrOptions = array('msg' => $lObjDb->errorInfo()[2]);
+                throw new AppExceptions\GenericException('VAULT_DB_LOAD_PDO_FAIL', $lArrOptions);
+            }
+            else {
+                $lArrData = $lObjPdoStat->fetchAll(\PDO::FETCH_ASSOC);
+            }
+        } catch (\Exception $e) {
+            $lArrOptions = array('msg' => 'Error during loading a data from DB => '.$e->getMessage());
+            throw new AppExceptions\GenericException('VAULT_DB_LOAD_FAIL', $lArrOptions);
+        }
+
+        return $lArrData;
+    }//end getDataFromSQLQuery()
+    
+    /**
+     * Execute an SQL Query
+     * 
+     * @throws MyGED\Core\Exceptions\GenericException
+     * 
+     * @param string    $pStrSQL    SQL SELECT QUERY
+     * @param \PDO      $pObjPDODb
+     *
+     * @return array(mixed)  Array of data 
+     */
+    public function executeSQLQuery($pStrSQL,$pObjPDODb=null)
+    {
+        try {
+            // PDO Db Object
+            if(!is_null($pObjPDODb))
+            {
+                $lObjDb = $pObjPDODb;
+            }
+            elseif (!is_null($this->_oPdoDBHandler)) {
+                $lObjDb = $this->_oPdoDBHandler;
+            }
+            else
+            {
+                $lArrOptions = array(
+                    'msg' => "Error during loading from DB - No DB Handler defined !"
+                );
+                throw new AppExceptions\GenericException('APP_DB_NO_DB_HANDLER', $lArrOptions);
+            }
+
+            $lStrSQL = $pStrSQL;
+
+            $lObjPdoStat = $lObjDb->query($lStrSQL);
+
+            if(!$lObjPdoStat)
+            {
+                $lArrOptions = array('msg' => $lObjDb->errorInfo()[2]);
+                throw new AppExceptions\GenericException('DB_EXEC_SQL_PDO_FAIL', $lArrOptions);
+            }
+            
+        } catch (\Exception $e) {
+            $lArrOptions = array('msg' => 'Error during loading a data from DB => '.$e->getMessage());
+            throw new AppExceptions\GenericException('DB_EXEC_SQL_PDO_FAIL', $lArrOptions);
+        }
+
+        return true;
+    }//end executeSQLQuery()
+    
+    
     /**
      * Load Object from Database.
      * 
      * @throws MyGED\Core\Exceptions\GenericException
      * 
-     * @param string    $pStrUid
+     * @param string    $pStrSQL    SQL SELECT QUERY
      * @param \PDO      $pObjPDODb
      *
-     * @return boolean  TRUE if OK
+     * @return array(mixed)  Array of data 
      */
     public function loadDB($pStrUid,$pObjPDODb=null)
     {
@@ -408,13 +509,14 @@ abstract class AbstractDBObject
             else
             {
                 $lArrOptions = array(
-                    'msg' => "Error during storage into SQL DB - No DB Handler defined !"
+                    'msg' => "Error during loading from DB - No DB Handler defined !"
                 );
                 throw new AppExceptions\GenericException('APP_DB_NO_DB_HANDLER', $lArrOptions);
             }
 
             $lStrSQL = self::generateSQLSelectOrder();
-            $lStrSQL .= self::getSQLWhereCondition($pStrUid);
+            $lStrSQL .= $this->getSQLWhereCondition($pStrUid);
+            
 
             $lObjPdoStat = $lObjDb->query($lStrSQL);
 
@@ -425,17 +527,19 @@ abstract class AbstractDBObject
             }
             else {
                 $lArrData = $lObjPdoStat->fetchAll(\PDO::FETCH_ASSOC);
-                if((count($lArrData) === 1)) {
-                    $this->_aFieldValues = $lArrData[0];
+                foreach($lArrData[0] as $lstrkey => $lStrValue)
+                {
+                    $this->_aFieldValues[$lstrkey] = $lStrValue;
                 }
             }
         } catch (\Exception $e) {
-            $lArrOptions = array('msg' => 'Error during loading a document into DB => '.$e->getMessage());
+            $lArrOptions = array('msg' => 'Error during loading a data from DB => '.$e->getMessage());
             throw new AppExceptions\GenericException('VAULT_DB_LOAD_FAIL', $lArrOptions);
         }
 
         return true;
     }//end loadDB()
+    
 
     /**
      * Returns a SQL SELECT FIELD part of query

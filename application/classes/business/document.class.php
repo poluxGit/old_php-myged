@@ -76,8 +76,6 @@ class Document extends Core\AbstractDBObject {
         parent::storeDataToDB(App::getAppDabaseObject());
     }//end store()
     
-    
-    
      /**
      * Delete Data
      */
@@ -85,5 +83,66 @@ class Document extends Core\AbstractDBObject {
     {
         return parent::deleteDataToDB(App::getAppDabaseObject());
     }//end store()
+    
+    /**
+     * Returns array including all metadata data of document
+     */
+    public function getAllMetadataDataInArray()
+    {
+        return MetaDocument::getAllItemsDataFromDocument($this->getId());
+    }
+    
+    /**
+     * Link an existing Tier to a this document.
+     * 
+     * @param string $pStrTierUid     Tier Uid
+     * 
+     * @return boolean OK?
+     */
+    public function addTierToDocument($pStrTierUid)
+    {
+        try{
+            $lStrSQL = sprintf(
+                    "INSERT INTO app_asso_docs_tiers (doc_id,tier_id) VALUES ('%s','%s')",
+                    $this->getId(),
+                    $pStrTierUid
+            );
+            
+            $this->executeSQLQuery($lStrSQL);
+            
+        } catch (Exception $ex) {
+                 $lArrOptions = array('msg' => 'Error during execution of a SQL Statement => '.$ex->getMessage());
+            throw new AppExceptions\GenericException('DB_EXEC_SQL_PDO_FAIL', $lArrOptions);
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Link an existing Categorie to a this document.
+     * 
+     * @param string $pStrCatUid     Categorie Uid
+     * 
+     * @return boolean OK?
+     */
+    public function addCategorieToDocument($pStrCatUid)
+    {
+        try{
+            $lStrSQL = sprintf(
+                    "INSERT INTO app_asso_docs_cats (doc_id,cat_id) VALUES ('%s','%s')",
+                    $this->getId(),
+                    $pStrCatUid
+            );
+            
+            $this->executeSQLQuery($lStrSQL);
+            
+        } catch (Exception $ex) {
+                 $lArrOptions = array('msg' => 'Error during execution of a SQL Statement => '.$ex->getMessage());
+            throw new AppExceptions\GenericException('DB_EXEC_SQL_PDO_FAIL', $lArrOptions);
+        }
+        
+        return true;
+    }
+    
     
 }//end class

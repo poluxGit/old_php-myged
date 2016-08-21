@@ -20,7 +20,6 @@ use MyGED\Business as Business;
  */
 class AppAPIRouter extends API
 {
-    
     /**
      *  Default constructor
      * 
@@ -28,143 +27,100 @@ class AppAPIRouter extends API
      * @param string        $origin     Server Name 
      */
     public function __construct($request, $origin) {
-        parent::__construct($request);
-
+        parent::__construct($request, $origin);
+        
+        // Specific Routes init!
+        static::setSpecificRoute('GET','#^document/[0-9A-Za-z\-]*/getmeta/#', 'cb_GET_DocumentGetMeta', 'document');
+        static::setSpecificRoute('GET','#^typedocument/[0-9A-Za-z\-]*/getmeta/#', 'cb_GET_TypeDocumentGetMeta', 'document');
+        static::setSpecificRoute('POST','#^document/[0-9A-Za-z\-]*/addtier/[0-9A-Za-z\-]*#', 'cb_POST_DocumentAddTier', 'document');
+        //static::setSpecificRoute('PUT','#document/doc-57b9b6c0d3006/addmeta/#', 'test', 'document');
         
         
-        
-//        // Abstracted out for example
-//        $APIKey = new Models\APIKey();
-//        $User = new Models\User();
-//
-//        if (!array_key_exists('apiKey', $this->request)) {
-//            throw new Exception('No API Key provided');
-//        } else if (!$APIKey->verifyKey($this->request['apiKey'], $origin)) {
-//            throw new Exception('Invalid API Key');
-//        } else if (array_key_exists('token', $this->request) &&
-//             !$User->get('token', $this->request['token'])) {
-//
-//            throw new Exception('Invalid User Token');
-//        }
-//
-//        $this->User = $User;
     }
+    
+    /**
+     * CallBack Document GetMeta in GET Request.
+     * 
+     * @internal grab '#^document/[0-9A-Za-z\-]/addmeta/#' URI
+     * 
+     * @return string Message
+     */
+    protected function cb_GET_DocumentGetMeta() {
+        
+        // Getting Data
+        $lStrDocUID = array_shift($this->args);
+        $lObjDoc = new Business\Document($lStrDocUID);        
+        return $this->_response($lObjDoc->getAllMetadataDataInArray(),200);
+        
+    }//end cb_GET_DocumentGetMeta()
+    
+    /**
+     * CallBack TypeDocument GetMeta in GET Request.
+     * 
+     * @internal grab '#^document/[0-9A-Za-z\-]/addmeta/#' URI
+     * 
+     * @return string Message
+     */
+    protected function cb_GET_TypeDocumentGetMeta() {
+        
+        // Getting Data
+        $lStrDocUID = array_shift($this->args);
+        $lObjDoc = new Business\TypeDocument($lStrDocUID);
+        
+        return $this->_response($lObjDoc->getAllMetadataDataInArray(),200);
+    }//end cb_GET_TypeDocumentGetMeta()
 
     /**
-     * Example of an Endpoint
+     * CallBack Document AddTier in POST Request.
+     * 
+     * @internal grab '#^document/[0-9A-Za-z\-]/addtier/[0-9A-Za-z\-]*#' URI
+     * 
+     * @return string Message
      */
-     protected function example() {
-        if ($this->method == 'GET') {
+    protected function cb_POST_DocumentAddTier() {
+        // Getting Data
+        $lStrDocUID = array_shift($this->args);
+        $lStrAddTier = array_shift($this->args);
+        $lStrTierUid = array_shift($this->args);
+        $lObjDoc = new Business\Document($lStrDocUID);
         
-            // Load a document !
-            // at least one parameters about id of doc!
-            if(count($pStrArgs) > 0)
-            {
-                $lStrIDDoc = $pStrArgs[0];
-                $lObjDoc = new Business\Document($lStrIDDoc);
-                $lArrData = $lObjDoc->getAllAttributeValueToArray();
-            }
-            else {
-                // Load all documents !
-                $lObjDoc = new Business\Document($lStrIDDoc);
-                $lArrData = Business\Document::getAllClassItemsData();
-            }
-            return $lArrData;
-        } elseif($this->method == 'POST') {
-            return "Only accepts GET requests : Mode INSERT (POST) asked!";
-        } elseif($this->method == 'DELETE') {
-            return "Only accepts GET requests : Mode DELETE (DELETE) asked!";
-        } elseif($this->method == 'PUT') {
-            return "Only accepts GET requests : Mode UPDATE (PUT) asked!";
-        }
-     }
-     
+        return $this->_response($lObjDoc->addTierToDocument($lStrTierUid),200);
+    }
+    
+    
     /**
-     * Endpoint 'document'
+     * Update fields on Business Object concerned by request.
      * 
-     * Document Class items management.
+     * @param \MyGED\Core\AbstractDBObject     $pObjToUpdate           Object to update
+     * @param array(fieldname => fieldvalue)   $pArrFieldsToUpdate     Fieldsname to update
      * 
-     * @return mixed    Result
+     * @throws Exceptions\GenericException     if field not valid for current type of Object
      */
-    protected function document($pStrArgs) 
+    private function setItemAttributesFromCurrentRequestArgs($pObjToUpdate,$pArrFieldsToUpdate)
     {
-        // Mode GET - LOADING DATA !
-        if ($this->method == 'GET') {
-            // Load a document !
-            // at least one parameters about id of doc!
-            if(count($pStrArgs) > 0)
-            {
-                $lStrIDDoc = $this->verb;
-                $lObjDoc = new Business\Document($lStrIDDoc);
-                $lArrData = $lObjDoc->getAllAttributeValueToArray();
-            }
-            else {
-                // Load all documents !
-                $lObjDoc = new Business\Document();
-                $lArrData = Business\Document::getAllClassItemsData();
-            }
-            return $lArrData;
-        } 
-        elseif ($this->method == 'POST') 
+        if($pObjToUpdate instanceof \MyGED\Core\AbstractDBObject)
         {
-            // Mode POST - INSERT DATA !
-            if(count($pStrArgs) > 0)
-            {
-                $lStrIDDoc = array_shift($pStrArgs);
-                $lObjDoc = new Business\Document($lStrIDDoc);
-                $lArrData = $lObjDoc->getAllAttributeValueToArray();
-            }
-            else {
-                // Load all documents !
-                $lObjDoc = new Business\Document();
-                $lArrData = Business\Document::getAllClassItemsData();
-            }
-            return $lArrData;
-        } 
-        elseif ($this->method == 'DELETE') 
-        {
-            // Mode DELETE - DELETE DATA !
-            return "Only accepts GET requests : Mode DELETE (DELETE) asked!";
-        } 
-        elseif ($this->method == 'PUT') 
-        {
-            // Mode UPDATE - UPDATE DATA !
-            return "Only accepts GET requests : Mode UPDATE (PUT) asked!";
+           foreach($pArrFieldsToUpdate as $lStrFieldAttributeName => $lStrFieldAttributeValue)
+           {
+               if($pObjToUpdate->isValidFieldForClass($lStrFieldAttributeName))
+               {
+                   $pObjToUpdate->setAttributeValue($lStrFieldAttributeName, $lStrFieldAttributeValue);
+               }
+               else
+               {
+                   $lArrOptions = array(
+                       'msg' => sprintf(
+                                   "Fieldname '%s' isn't valid for Object of type '%s'.",
+                                   $lStrFieldAttributeName,
+                                   $this->endpoint
+                               )
+                       );
+                   throw new Exceptions\GenericException('API_BUSINESS_FIELDNAME_INVALID', $lArrOptions);
+               }
+
+           }
         }
-     }
-     
-     /**
-      * Update fields if possible
-      * 
-      * @param \MyGED\Core\AbstractDBObject     $pObjToUpdate           Object to update
-      * @param array(fieldname => fieldvalue)   $pArrFieldsToUpdate     Fieldsname to update
-      * @throws Exceptions\GenericException     if field not valid for current type of Object
-      */
-     private function setItemAttributesFromCurrentRequestArgs($pObjToUpdate,$pArrFieldsToUpdate)
-     {
-         if($pObjToUpdate instanceof \MyGED\Core\AbstractDBObject)
-         {
-            foreach($pArrFieldsToUpdate as $lStrFieldAttributeName => $lStrFieldAttributeValue)
-            {
-                if($pObjToUpdate->isValidFieldForClass($lStrFieldAttributeName))
-                {
-                    $pObjToUpdate->setAttributeValue($lStrFieldAttributeName, $lStrFieldAttributeValue);
-                }
-                else
-                {
-                    $lArrOptions = array(
-                        'msg' => sprintf(
-                                    "Fieldname '%s' isn't valid for Object of type '%s'.",
-                                    $lStrFieldAttributeName,
-                                    $this->endpoint
-                                )
-                        );
-                    throw new Exceptions\GenericException('API_BUSINESS_FIELDNAME_INVALID', $lArrOptions);
-                }
-                
-            }
-         }
-     }
+    }
      
     
  }

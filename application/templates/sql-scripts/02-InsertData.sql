@@ -1,5 +1,3 @@
-<?php
-
 /* 
  * Copyright 2016 polux.
  *
@@ -15,4 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/**
+ * Author:  polux
+ * Created: 21 août 2016
+ */
 
+
+
+INSERT INTO app_categories(cat_id,cat_title,cat_code,cat_desc) VALUES ('cat-factures','Facture','CAT-FACT','Ensemble des factures.');
+
+INSERT INTO app_tiers(tier_id,tier_title,tier_code,tier_desc) VALUES ('tie-edf','Electricité de France','EDF','');
+
+INSERT INTO app_typesdoc(tdoc_id,tdoc_title,tdoc_code,tdoc_desc) VALUES ('tdoc-factures','Facture','FACT','Tous les types de factures.');
