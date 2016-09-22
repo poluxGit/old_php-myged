@@ -1,0 +1,15 @@
+version: "2"
+
+services:
+  php:
+    image: polux/web-srv:dev
+    container_name: web-srv-01
+    networks:
+      - internal
+    ports:
+      - 80
+    volumes:
+      - ./../www:/var/www/php-myged/ 
+
+networks:
+  internal:
