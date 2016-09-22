@@ -1,0 +1,17 @@
+version: "2"
+
+services:
+  php:
+    image: polux/web-srv:dev
+    container_name: web-srv-02
+    networks:
+      - internal
+    ports:
+      - 80
+      - 9000
+    volumes:
+      - ./../../www/:/var/www/html/php-myged/
+      - ./logs-apache2:/var/log/apache2/
+      - ./logs-php:/usr/local/log/php-xdebug/
+networks:
+  internal:
