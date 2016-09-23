@@ -39,3 +39,12 @@ Cannot load Xdebug - it was already loaded
 [Mon Sep 05 02:27:18.287955 2016] [core:notice] [pid 8] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
 [Mon Sep 05 02:27:22.211805 2016] [:error] [pid 9] [client 172.19.0.1:58074] XDebug could not open the remote debug file '/usr/local/log/php-xdebug/all.log'.
 [Mon Sep 05 02:27:27.411264 2016] [:error] [pid 10] [client 172.19.0.1:58076] XDebug could not open the remote debug file '/usr/local/log/php-xdebug/all.log'.
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.19.0.2. Set the 'ServerName' directive globally to suppress this message
+Cannot load Xdebug - it was already loaded
+[Fri Sep 23 21:55:37.999707 2016] [mpm_prefork:notice] [pid 8] AH00163: Apache/2.4.18 (Ubuntu) configured -- resuming normal operations
+[Fri Sep 23 21:55:37.999762 2016] [core:notice] [pid 8] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.19.0.2. Set the 'ServerName' directive globally to suppress this message
+Cannot load Xdebug - it was already loaded
+[Fri Sep 23 22:18:33.357822 2016] [core:warn] [pid 9] AH00098: pid file /var/run/apache2/apache2.pid overwritten -- Unclean shutdown of previous Apache run?
+[Fri Sep 23 22:18:33.359878 2016] [mpm_prefork:notice] [pid 9] AH00163: Apache/2.4.18 (Ubuntu) configured -- resuming normal operations
+[Fri Sep 23 22:18:33.359902 2016] [core:notice] [pid 9] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'

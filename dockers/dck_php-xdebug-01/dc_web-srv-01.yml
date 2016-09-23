@@ -7,7 +7,7 @@ services:
     networks:
       - internal
     ports:
-      - 80
+      - 90:80
       - 9000
     volumes:
       - ./../../www/:/var/www/html/php-myged/
