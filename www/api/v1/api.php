@@ -2,7 +2,7 @@
 
 /**
  * API
- * 
+ *
  * @author polux <polux@poluxfr.org>
  */
 
@@ -10,9 +10,10 @@ require_once '../../appli.inc.php';
 
 use MyGED\Core\Application as Application;
 use MyGED\Vault as Vault;
-use MyGED\Application\AppAPIRouter as AppAPI; 
-use MyGED\Application\App as App; 
+use MyGED\Application\AppAPIRouter as AppAPI;
+use MyGED\Application\App as App;
 
+print_r($_REQUEST);
 
 App::initApplication();
 

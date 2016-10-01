@@ -1,0 +1,6 @@
+[01-Oct-2016 23:01:37 UTC] PHP Notice:  Undefined index: request in /var/www/html/php-myged/api/v1/api.php on line 26
+[01-Oct-2016 23:01:37 UTC] PHP Stack trace:
+[01-Oct-2016 23:01:37 UTC] PHP   1. {main}() /var/www/html/php-myged/api/v1/api.php:0
+[01-Oct-2016 23:18:15 UTC] PHP Notice:  Undefined index: request in /var/www/html/php-myged/api/v1/api.php on line 26
+[01-Oct-2016 23:18:15 UTC] PHP Stack trace:
+[01-Oct-2016 23:18:15 UTC] PHP   1. {main}() /var/www/html/php-myged/api/v1/api.php:0

@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+        <title>MyGED @ PoLuX</title>
+        <meta charset="utf-8">
+        <meta name="description" content="165c. uniques">
+        <link rel="stylesheet" type="text/css" href="styles/main.css " >
+        <script src="js/jquery/jquery-3.1.0.js"></script>
+        <script src="js/jquery/jquery-ui-1.12.0/jquery-ui.js"></script>
+        <script src="js/main-myged-js-script.js"></script>
+        <script src="js/my-widgets/DocumentManager.myged.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>MyGED @ PoluX</h1>
+    </header>
+
+    <hr/>
+
+    <section class="frm-datagrid">
+        <datalist id="data-categories">
+            <option value="toto">
+            <option value="tata">
+            <option value="titi">
+        </datalist>
+        <!-- Document Manager HTML Structure Example -->
+        <nav>
+            <span title="Nom du container"> My Home (PoLuX) </span>
+            <button name="btnSearch"> OK </button>
+            <input type="text" value="" name="iptSearch" title="Rechercher" />
+        </nav>
+
+        <div class="myged-docMngr-div-collapse">
+            <!-- Menu Latéral -->
+            <aside>
+               <header>Catégories</header>
+               <ul id="myged-select-categories">
+                   <li>Factures</li>
+                   <li>Attestations</li>
+                   <li>Autres</li>
+
+               </ul>
+            </aside>
+
+            <!-- Contenu principal -->
+            <article>
+
+                <header>Mes fichiers</header>
+
+                <table>
+                    <thead>
+                        <th>
+                            X
+                        </th>
+                        <th>
+                            Nom / Titre
+                        </th>
+                        <th>
+                            Size
+                        </th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type=checkbox name=chk /></td>
+                            <td>Fichier 1</td>
+                            <td>Test</td>
+                        </tr>
+                        <tr>
+                            <td><input type=checkbox name=chk /></td>
+                            <td>Fichier 2</td>
+                            <td>Test</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <footer><input type="color" /> </footer>
+
+            </article>
+            <p style="clear:both"></p>
+        </div>
+<footer>Footer Section</footer>
+    </section>
+
+
+        <footer>Pieds de Page</footer>
+
+
+</body>
+</html>

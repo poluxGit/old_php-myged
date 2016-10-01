@@ -2,15 +2,15 @@
 
 /**
  * Autoloader
- * 
+ *
  * @param type $pStrClassName
  * @return type
  */
 function __autoload($pStrClassName)
 {
-    
     $lStrPAth = pathinfo(__FILE__,PATHINFO_DIRNAME);
     $lStrPAth .= '/';
+
     //class directories
     $directorys = array(
         $lStrPAth.'application/',
@@ -38,4 +38,4 @@ function __autoload($pStrClassName)
 
         closedir($lObjDir);
     }
-}
+}//end __autoload()

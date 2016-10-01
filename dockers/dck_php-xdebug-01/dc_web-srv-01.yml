@@ -1,17 +1,19 @@
 version: "2"
-
 services:
   php:
     image: polux/web-srv:dev
     container_name: web-srv-02
     networks:
-      - internal
+        - my-network
     ports:
-      - 90:80
-      - 9000
+      - "80:80"
+      - "9000:9000"
+
+
     volumes:
-      - ./../../www/:/var/www/html/php-myged/
+      - /home/polux/Projects/php-myged/www:/var/www/html/php-myged/
       - ./logs-apache2:/var/log/apache2/
-      - ./logs-php:/usr/local/log/php-xdebug/
+      - ./logs-php:/var/log/php/
 networks:
-  internal:
+   my-network:
+    external: true

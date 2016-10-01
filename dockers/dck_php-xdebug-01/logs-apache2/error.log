@@ -1,50 +1,51 @@
 AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.19.0.2. Set the 'ServerName' directive globally to suppress this message
-[Mon Sep 05 01:34:47.097851 2016] [mpm_prefork:notice] [pid 7] AH00163: Apache/2.4.18 (Ubuntu) configured -- resuming normal operations
-[Mon Sep 05 01:34:47.097893 2016] [core:notice] [pid 7] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
-AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.19.0.2. Set the 'ServerName' directive globally to suppress this message
-[Mon Sep 05 01:35:14.592472 2016] [core:warn] [pid 8] AH00098: pid file /var/run/apache2/apache2.pid overwritten -- Unclean shutdown of previous Apache run?
-[Mon Sep 05 01:35:14.594464 2016] [mpm_prefork:notice] [pid 8] AH00163: Apache/2.4.18 (Ubuntu) configured -- resuming normal operations
-[Mon Sep 05 01:35:14.594491 2016] [core:notice] [pid 8] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
-AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.19.0.2. Set the 'ServerName' directive globally to suppress this message
-[Mon Sep 05 01:38:15.185097 2016] [mpm_prefork:notice] [pid 8] AH00163: Apache/2.4.18 (Ubuntu) configured -- resuming normal operations
-[Mon Sep 05 01:38:15.185145 2016] [core:notice] [pid 8] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
-[Mon Sep 05 01:48:51.248980 2016] [:error] [pid 9] [client 172.19.0.1:47924] script '/var/www/html/php-myged/info.php' not found or unable to stat
-[Mon Sep 05 01:48:55.584778 2016] [:error] [pid 9] [client 172.19.0.1:47924] script '/var/www/html/php-myged/info.php' not found or unable to stat
-AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.19.0.2. Set the 'ServerName' directive globally to suppress this message
-[Mon Sep 05 01:50:36.865939 2016] [core:warn] [pid 7] AH00098: pid file /var/run/apache2/apache2.pid overwritten -- Unclean shutdown of previous Apache run?
-[Mon Sep 05 01:50:36.867959 2016] [mpm_prefork:notice] [pid 7] AH00163: Apache/2.4.18 (Ubuntu) configured -- resuming normal operations
-[Mon Sep 05 01:50:36.867988 2016] [core:notice] [pid 7] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
-[Mon Sep 05 01:50:40.380259 2016] [:error] [pid 8] [client 172.19.0.1:48412] script '/var/www/html/php-myged/info.php' not found or unable to stat
-[Mon Sep 05 01:50:44.265302 2016] [:error] [pid 8] [client 172.19.0.1:48412] script '/var/www/html/php-myged/info.php' not found or unable to stat
-AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.19.0.2. Set the 'ServerName' directive globally to suppress this message
-[Mon Sep 05 01:51:49.667681 2016] [mpm_prefork:notice] [pid 8] AH00163: Apache/2.4.18 (Ubuntu) configured -- resuming normal operations
-[Mon Sep 05 01:51:49.667732 2016] [core:notice] [pid 8] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
-[Mon Sep 05 01:58:53.013920 2016] [mpm_prefork:notice] [pid 8] AH00169: caught SIGTERM, shutting down
-AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.19.0.2. Set the 'ServerName' directive globally to suppress this message
-[Mon Sep 05 02:00:09.768871 2016] [mpm_prefork:notice] [pid 8] AH00163: Apache/2.4.18 (Ubuntu) configured -- resuming normal operations
-[Mon Sep 05 02:00:09.768914 2016] [core:notice] [pid 8] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
-AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.19.0.2. Set the 'ServerName' directive globally to suppress this message
+[Sat Sep 24 14:05:14.294639 2016] [mpm_prefork:notice] [pid 8] AH00163: Apache/2.4.18 (Ubuntu) configured -- resuming normal operations
+[Sat Sep 24 14:05:14.294687 2016] [core:notice] [pid 8] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.20.0.2. Set the 'ServerName' directive globally to suppress this message
+[Sat Sep 24 14:06:27.713333 2016] [mpm_prefork:notice] [pid 8] AH00163: Apache/2.4.18 (Ubuntu) configured -- resuming normal operations
+[Sat Sep 24 14:06:27.713381 2016] [core:notice] [pid 8] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.20.0.2. Set the 'ServerName' directive globally to suppress this message
+[Sat Sep 24 14:07:08.285973 2016] [mpm_prefork:notice] [pid 8] AH00163: Apache/2.4.18 (Ubuntu) configured -- resuming normal operations
+[Sat Sep 24 14:07:08.286027 2016] [core:notice] [pid 8] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.21.0.2. Set the 'ServerName' directive globally to suppress this message
+[Sat Sep 24 14:12:16.063723 2016] [mpm_prefork:notice] [pid 8] AH00163: Apache/2.4.18 (Ubuntu) configured -- resuming normal operations
+[Sat Sep 24 14:12:16.063788 2016] [core:notice] [pid 8] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.21.0.2. Set the 'ServerName' directive globally to suppress this message
+[Sat Sep 24 14:15:01.903490 2016] [mpm_prefork:notice] [pid 8] AH00163: Apache/2.4.18 (Ubuntu) configured -- resuming normal operations
+[Sat Sep 24 14:15:01.903541 2016] [core:notice] [pid 8] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.21.0.2. Set the 'ServerName' directive globally to suppress this message
+[Sat Sep 24 14:24:25.286545 2016] [core:warn] [pid 7] AH00098: pid file /var/run/apache2/apache2.pid overwritten -- Unclean shutdown of previous Apache run?
+[Sat Sep 24 14:24:25.290245 2016] [mpm_prefork:notice] [pid 7] AH00163: Apache/2.4.18 (Ubuntu) configured -- resuming normal operations
+[Sat Sep 24 14:24:25.290273 2016] [core:notice] [pid 7] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.21.0.2. Set the 'ServerName' directive globally to suppress this message
+[Sat Sep 24 14:26:03.270977 2016] [mpm_prefork:notice] [pid 8] AH00163: Apache/2.4.18 (Ubuntu) configured -- resuming normal operations
+[Sat Sep 24 14:26:03.271025 2016] [core:notice] [pid 8] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.21.0.2. Set the 'ServerName' directive globally to suppress this message
+[Sat Sep 24 14:29:39.214825 2016] [mpm_prefork:notice] [pid 8] AH00163: Apache/2.4.18 (Ubuntu) configured -- resuming normal operations
+[Sat Sep 24 14:29:39.214866 2016] [core:notice] [pid 8] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.21.0.2. Set the 'ServerName' directive globally to suppress this message
 Cannot load Xdebug - it was already loaded
-[Mon Sep 05 02:16:43.246252 2016] [mpm_prefork:notice] [pid 8] AH00163: Apache/2.4.18 (Ubuntu) configured -- resuming normal operations
-[Mon Sep 05 02:16:43.246294 2016] [core:notice] [pid 8] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
-[Mon Sep 05 02:20:46.121374 2016] [:error] [pid 10] [client 172.19.0.1:56384] PHP Fatal error:  Uncaught MyGED\\Core\\Exceptions\\GenericException: LOAD_VAULT_CHECKFS - Vault is not valid (path: /var/www/html/php-myged/data/vault) in /var/www/html/php-myged/application/data/vault.sclass.php:81\nStack trace:\n#0 /var/www/html/php-myged/application/classes/app.class.php(101): MyGED\\Vault\\Vault::loadVault('/var/www/html/p...', false)\n#1 /var/www/html/php-myged/application/classes/app.class.php(67): MyGED\\Application\\App::initVault()\n#2 /var/www/html/php-myged/index.php(15): MyGED\\Application\\App::initApplication()\n#3 {main}\n  thrown in /var/www/html/php-myged/application/data/vault.sclass.php on line 81
-[Mon Sep 05 02:22:29.206818 2016] [:error] [pid 12] [client 172.19.0.1:56802] PHP Fatal error:  Uncaught MyGED\\Core\\Exceptions\\GenericException: LOAD_VAULT_CHECKFS - Vault is not valid (path: /var/www/html/php-myged/data/vault) in /var/www/html/php-myged/application/data/vault.sclass.php:81\nStack trace:\n#0 /var/www/html/php-myged/application/classes/app.class.php(101): MyGED\\Vault\\Vault::loadVault('/var/www/html/p...', false)\n#1 /var/www/html/php-myged/application/classes/app.class.php(67): MyGED\\Application\\App::initVault()\n#2 /var/www/html/php-myged/index.php(15): MyGED\\Application\\App::initApplication()\n#3 {main}\n  thrown in /var/www/html/php-myged/application/data/vault.sclass.php on line 81
-[Mon Sep 05 02:22:37.827012 2016] [:error] [pid 13] [client 172.19.0.1:56840] PHP Fatal error:  Uncaught MyGED\\Core\\Exceptions\\GenericException: LOAD_VAULT_CHECKFS - Vault is not valid (path: /var/www/html/php-myged/data/vault) in /var/www/html/php-myged/application/data/vault.sclass.php:81\nStack trace:\n#0 /var/www/html/php-myged/application/classes/app.class.php(101): MyGED\\Vault\\Vault::loadVault('/var/www/html/p...', false)\n#1 /var/www/html/php-myged/application/classes/app.class.php(67): MyGED\\Application\\App::initVault()\n#2 /var/www/html/php-myged/index.php(15): MyGED\\Application\\App::initApplication()\n#3 {main}\n  thrown in /var/www/html/php-myged/application/data/vault.sclass.php on line 81
-[Mon Sep 05 02:22:38.404287 2016] [:error] [pid 14] [client 172.19.0.1:56846] PHP Fatal error:  Uncaught MyGED\\Core\\Exceptions\\GenericException: LOAD_VAULT_CHECKFS - Vault is not valid (path: /var/www/html/php-myged/data/vault) in /var/www/html/php-myged/application/data/vault.sclass.php:81\nStack trace:\n#0 /var/www/html/php-myged/application/classes/app.class.php(101): MyGED\\Vault\\Vault::loadVault('/var/www/html/p...', false)\n#1 /var/www/html/php-myged/application/classes/app.class.php(67): MyGED\\Application\\App::initVault()\n#2 /var/www/html/php-myged/index.php(15): MyGED\\Application\\App::initApplication()\n#3 {main}\n  thrown in /var/www/html/php-myged/application/data/vault.sclass.php on line 81
-[Mon Sep 05 02:22:38.778936 2016] [:error] [pid 9] [client 172.19.0.1:56848] PHP Fatal error:  Uncaught MyGED\\Core\\Exceptions\\GenericException: LOAD_VAULT_CHECKFS - Vault is not valid (path: /var/www/html/php-myged/data/vault) in /var/www/html/php-myged/application/data/vault.sclass.php:81\nStack trace:\n#0 /var/www/html/php-myged/application/classes/app.class.php(101): MyGED\\Vault\\Vault::loadVault('/var/www/html/p...', false)\n#1 /var/www/html/php-myged/application/classes/app.class.php(67): MyGED\\Application\\App::initVault()\n#2 /var/www/html/php-myged/index.php(15): MyGED\\Application\\App::initApplication()\n#3 {main}\n  thrown in /var/www/html/php-myged/application/data/vault.sclass.php on line 81
-[Mon Sep 05 02:22:39.127778 2016] [:error] [pid 10] [client 172.19.0.1:56850] PHP Fatal error:  Uncaught MyGED\\Core\\Exceptions\\GenericException: LOAD_VAULT_CHECKFS - Vault is not valid (path: /var/www/html/php-myged/data/vault) in /var/www/html/php-myged/application/data/vault.sclass.php:81\nStack trace:\n#0 /var/www/html/php-myged/application/classes/app.class.php(101): MyGED\\Vault\\Vault::loadVault('/var/www/html/p...', false)\n#1 /var/www/html/php-myged/application/classes/app.class.php(67): MyGED\\Application\\App::initVault()\n#2 /var/www/html/php-myged/index.php(15): MyGED\\Application\\App::initApplication()\n#3 {main}\n  thrown in /var/www/html/php-myged/application/data/vault.sclass.php on line 81
-AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.19.0.2. Set the 'ServerName' directive globally to suppress this message
+[Sat Sep 24 14:51:47.772517 2016] [mpm_prefork:notice] [pid 8] AH00163: Apache/2.4.18 (Ubuntu) configured -- resuming normal operations
+[Sat Sep 24 14:51:47.772620 2016] [core:notice] [pid 8] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.21.0.2. Set the 'ServerName' directive globally to suppress this message
 Cannot load Xdebug - it was already loaded
-[Mon Sep 05 02:27:18.287906 2016] [mpm_prefork:notice] [pid 8] AH00163: Apache/2.4.18 (Ubuntu) configured -- resuming normal operations
-[Mon Sep 05 02:27:18.287955 2016] [core:notice] [pid 8] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
-[Mon Sep 05 02:27:22.211805 2016] [:error] [pid 9] [client 172.19.0.1:58074] XDebug could not open the remote debug file '/usr/local/log/php-xdebug/all.log'.
-[Mon Sep 05 02:27:27.411264 2016] [:error] [pid 10] [client 172.19.0.1:58076] XDebug could not open the remote debug file '/usr/local/log/php-xdebug/all.log'.
-AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.19.0.2. Set the 'ServerName' directive globally to suppress this message
+[Sat Sep 24 14:57:35.751623 2016] [mpm_prefork:notice] [pid 8] AH00163: Apache/2.4.18 (Ubuntu) configured -- resuming normal operations
+[Sat Sep 24 14:57:35.751664 2016] [core:notice] [pid 8] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.21.0.2. Set the 'ServerName' directive globally to suppress this message
 Cannot load Xdebug - it was already loaded
-[Fri Sep 23 21:55:37.999707 2016] [mpm_prefork:notice] [pid 8] AH00163: Apache/2.4.18 (Ubuntu) configured -- resuming normal operations
-[Fri Sep 23 21:55:37.999762 2016] [core:notice] [pid 8] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
-AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.19.0.2. Set the 'ServerName' directive globally to suppress this message
+[Sun Sep 25 13:28:05.029376 2016] [mpm_prefork:notice] [pid 8] AH00163: Apache/2.4.18 (Ubuntu) configured -- resuming normal operations
+[Sun Sep 25 13:28:05.029423 2016] [core:notice] [pid 8] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.21.0.2. Set the 'ServerName' directive globally to suppress this message
 Cannot load Xdebug - it was already loaded
-[Fri Sep 23 22:18:33.357822 2016] [core:warn] [pid 9] AH00098: pid file /var/run/apache2/apache2.pid overwritten -- Unclean shutdown of previous Apache run?
-[Fri Sep 23 22:18:33.359878 2016] [mpm_prefork:notice] [pid 9] AH00163: Apache/2.4.18 (Ubuntu) configured -- resuming normal operations
-[Fri Sep 23 22:18:33.359902 2016] [core:notice] [pid 9] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+[Sun Sep 25 19:03:25.862092 2016] [mpm_prefork:notice] [pid 8] AH00163: Apache/2.4.18 (Ubuntu) configured -- resuming normal operations
+[Sun Sep 25 19:03:25.862137 2016] [core:notice] [pid 8] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.21.0.2. Set the 'ServerName' directive globally to suppress this message
+Cannot load Xdebug - it was already loaded
+[Mon Sep 26 19:04:33.398085 2016] [core:warn] [pid 7] AH00098: pid file /var/run/apache2/apache2.pid overwritten -- Unclean shutdown of previous Apache run?
+[Mon Sep 26 19:04:33.400632 2016] [mpm_prefork:notice] [pid 7] AH00163: Apache/2.4.18 (Ubuntu) configured -- resuming normal operations
+[Mon Sep 26 19:04:33.400658 2016] [core:notice] [pid 7] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.21.0.2. Set the 'ServerName' directive globally to suppress this message
+Cannot load Xdebug - it was already loaded
+[Fri Sep 30 20:48:48.427393 2016] [core:warn] [pid 8] AH00098: pid file /var/run/apache2/apache2.pid overwritten -- Unclean shutdown of previous Apache run?
+[Fri Sep 30 20:48:48.429758 2016] [mpm_prefork:notice] [pid 8] AH00163: Apache/2.4.18 (Ubuntu) configured -- resuming normal operations
+[Fri Sep 30 20:48:48.429780 2016] [core:notice] [pid 8] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
