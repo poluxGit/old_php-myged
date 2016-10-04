@@ -15,9 +15,9 @@ use MyGED\Vault as Vault;
 Application\App::initApplication();
 
 echo "DISPLAYING ALL DOCUMENTS : <BR/>";
-$lODoc = new \MyGED\Business\Categorie();
+$lODoc = new \MyGED\Business\Document();
 echo "<pre>";
-print_r(\MyGED\Business\Categorie::getAllClassItemsData());
+print_r(\MyGED\Business\Document::getAllClassItemsData());
 echo "</pre>";
 
 

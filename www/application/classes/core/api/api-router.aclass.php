@@ -118,7 +118,6 @@ abstract class API {
             }
         }
         $this->cleaningAccordingMethod();
-       // print_r($this);
     }
 
     private function cleaningAccordingMethod()
@@ -132,6 +131,7 @@ abstract class API {
                 $this->request = $this->_cleanInputs($_GET);
                 break;
             case 'PUT':
+                //    print_r(file_get_contents("php://input"));
                 parse_str(file_get_contents("php://input"), $this->request);
                 $this->file = file_get_contents("php://input");
                 break;
@@ -144,22 +144,22 @@ abstract class API {
     /**
      * Processing API Action
      *
+     * Main EntryPoint to manage a Request
+     *
      * @return mixed response
      */
     public function processAPI()
     {
-        // XXX print_r($this->initRequest);
-
         try{
             // Endpoint is valid ?
-            if(!static::isValidEndpoint($this->endpoint))
+            if(!static::isValidEndpoint($this->endpoint) && !$this->isSpecificRoute($this->initRequest,$this->method))
             {
                 throw new \Exception(
                             sprintf(
                                     "No Endpoint '%s' (ClassName:'%s').",
                                     $this->endpoint,
                                     static::getEndpointClassname($this->endpoint)
-                                    )
+                                )
                         );
             }
             return $this->callEndPoint();
@@ -170,6 +170,11 @@ abstract class API {
         }
     }
 
+    /**
+     * callEndPoint
+     *
+     *
+     */
     protected function callEndPoint()
     {
         // Specific Route ?
@@ -182,8 +187,11 @@ abstract class API {
             // Regular route !
             return $this->callEndpointByMethod();
         }
-    }
+    }//end callEndPoint()
 
+    /**
+     *
+     */
     protected function callEndpointByMethod()
     {
         if ($this->method == 'GET')

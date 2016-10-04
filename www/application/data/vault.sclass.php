@@ -2,9 +2,9 @@
 
 /**
  * Vault Class File Definition
- * 
+ *
  * @author polux <polux@poluxfr.org>
- * 
+ *
  * @package MyGED
  * @subpackage Vault
  */
@@ -17,56 +17,56 @@ use MyGED\Application as App;
 
 /**
  * Vaul Class Definition
- * 
+ *
  * Class managing storing solution.
  */
 class Vault {
 
     /**
      * Vault Root Path
-     * 
-     * @var string 
+     *
+     * @var string
      * @access protected
      * @static
      */
-    protected static $_sVaultPath = null;    
-    
+    protected static $_sVaultPath = null;
+
     /**
      * Vault DB filepath
-     * 
-     * @var \PDO 
+     *
+     * @var \PDO
      * @access protected
      * @static
      */
-    protected static $_sVaultDBFilepath = null; 
-    
+    protected static $_sVaultDBFilepath = null;
+
      /**
      * Vault DB Pdo Object
-     * 
-     * @var \PDO 
+     *
+     * @var \PDO
      * @access protected
      * @static
      */
-    protected static $_oPdoVaultDB = null;    
-    
+    protected static $_oPdoVaultDB = null;
+
     /**
      * Define Vault Root Path Property
-     * 
+     *
      * @param type $pStrVaultPath
-     * 
+     *
      * @static
      */
     private static function setVaultPath($pStrVaultPath)
     {
         self::$_sVaultPath = $pStrVaultPath;
     }
-    
+
     /**
      * Load Vault Directory
-     * 
+     *
      * @param string  $pStrVaultPath    Path to manage.
      * @param boolean $pBoolReset       Force reset of vault (db)
-     * 
+     *
      * @throws \MyGED\Core\Exceptions\GenericException
      */
     public static function loadVault($pStrVaultPath, $pBoolReset=false)
@@ -82,13 +82,10 @@ class Vault {
             }
             else
             {
-                
                 VaultFs::repairVaultDirectoriesAndFiles();
             }
         }
-        
-        
-        
+
         // Check Database !
         if(!file_exists(self::getDatabaseFilePath()))
         {
@@ -103,14 +100,14 @@ class Vault {
                 VaultFs::repairVaultDirectoriesAndFiles();
             }
         }
-                
+
         self::setVaultPath($pStrVaultPath);
         self::$_sVaultDBFilepath = self::getDatabaseFilePath();
-    }
-    
+    }//end loadVault()
+
     /**
      * Generate Unique id
-     * 
+     *
      * @static
      * @return string
      */
@@ -118,12 +115,12 @@ class Vault {
     {
        return uniqid($pStrPrefix);
     }
-    
+
     /**
      * Returns File Content from her Uid
-     * 
+     *
      * @param type $pStrUniqueID Unique id of file
-     * 
+     *
      * @return mixed Content of the file.
      */
     public static function getFileContentByID($pStrUniqueID)
@@ -131,57 +128,69 @@ class Vault {
         $lStrFilePath = VaultDb::getFilePath($pStrUniqueID);
         return VaultFs::getFileContentByFilepath($lStrFilePath);
     }
-    
+
     /**
-     * 
+     *
      * @param type $pStrUniqueID
      */
     public static function getFilePathByID($pStrUniqueID)
     {
         return VaultDb::getFilePath($pStrUniqueID);
     }
-    
+
      /**
-     * 
+     *
      * @param type $pStrUniqueID
      */
     public static function getFileOriginalNameByID($pStrUniqueID)
     {
         return VaultDb::getFileOriginalName($pStrUniqueID);
     }
-    
+
     public static function getDatabaseFilePath()
     {
         return self::$_sVaultPath.'/db/vault.db';
     }
-    
+
     public static function getTemplateVaultDBFilePath()
     {
         return App\App::getAppParam('TEMPLATES_ROOT').'/vault_template.db';
     }
-    
-    
+
+
     public static function getVaultRootDir()
     {
         return self::$_sVaultPath;
     }
-    
-    protected static function storeFromContent($pStrIdObject,$pMixedContent)
+
+    public static function storeFromContent($pMixedContent)
     {
-        
+        $lStrUniqueIdDoc = self::generateUniqueID('fic-');
+
+        try {
+            $lStrFilePath = VaultFs::storeFileContent($lStrUniqueIdDoc, $pMixedContent,'tmp');
+            print_r($lStrFilePath);
+            VaultDb::insertNewFile($lStrUniqueIdDoc, basename($lStrFilePath), $lStrFilePath);
+        }
+        catch(\Exception $ex)
+        {
+            $lArrOptions = array('msg'=> sprintf('Error saving a file into the Vault (filepath to store: %s) | Error : %s',$lStrFilePath,$ex->getMessage()));
+            throw new AppExceptions\GenericException('LOAD_VAULT_CHECKDB',$lArrOptions);
+        }
+        return $lStrUniqueIdDoc;
     }
-    
+
     /**
      * Store a file from existing file
-     * 
+     *
      * @param type $pStrFilePath Path of file to store.
-     * 
+     *
      * @return string Id Unique Doc
      */
     public static function storeFromFilepath($pStrFilePath)
     {
         $lStrUniqueIdDoc = self::generateUniqueID();
-       
+
         try {
             $lStrFilePath = VaultFs::storeFromFilepath($lStrUniqueIdDoc, $pStrFilePath);
             VaultDb::insertNewFile($lStrUniqueIdDoc, basename($pStrFilePath), $lStrFilePath);
@@ -193,10 +202,10 @@ class Vault {
         }
         return $lStrUniqueIdDoc;
     }
-    
+
     /**
      * Returns Vault PDO Database Object
-     * 
+     *
      * @static
      * @access protected
      * @return \PDO

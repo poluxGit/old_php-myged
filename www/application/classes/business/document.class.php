@@ -2,7 +2,7 @@
 
 /**
  * Document class file definition
- * 
+ *
  * @package Core
  * @author polux <polux@poluxfr.org>
  */
@@ -14,23 +14,23 @@ use MyGED\Core as Core;
 
 /**
  * Document Class
- * 
+ *
  * Defintion of a Document
  */
 class Document extends Core\AbstractDBObject {
-    
+
     /**
      * Default Class Constructor - New Document
      */
     public function __construct($pStrUid=null) {
         parent::__construct($pStrUid,App::getAppDabaseObject());
     }//end __construct()
-    
+
     /**
      * getDocById
-     * 
+     *
      * Returns a Document by his id
-     * 
+     *
      * @param string $pStrDocId
      * @return \Document
      */
@@ -38,10 +38,10 @@ class Document extends Core\AbstractDBObject {
     {
         return new Document($pStrDocId);
     }//end getDocById()
-    
+
     /**
      * Database table set up
-     * 
+     *
      * @static
      */
     public static function setupDBConfig()
@@ -52,22 +52,27 @@ class Document extends Core\AbstractDBObject {
         self::$_aFieldNames = array(
             'doc_id',
             'doc_title',
-            'doc_code'
+            'doc_code',
+            'doc_desc',
+            'tdoc_id',
+            'doc_year',
+            'doc_month',
+            'doc_day'
         );
     }
-    
+
     /**
-     * Returns all records about your class 
-     * 
+     * Returns all records about your class
+     *
      * @param string $pStrWhereCondition Filtering Condition (without WHERE)
-     * 
+     *
      * @return array(mixed)
      */
     public static function getAllClassItemsData($pStrWhereCondition=null)
     {
         return static::getAllItems(App::getAppDabaseObject(), $pStrWhereCondition);
     }//end getAllClassItemsData()
-    
+
     /**
      * Store Data
      */
@@ -75,7 +80,7 @@ class Document extends Core\AbstractDBObject {
     {
         parent::storeDataToDB(App::getAppDabaseObject());
     }//end store()
-    
+
      /**
      * Delete Data
      */
@@ -83,7 +88,7 @@ class Document extends Core\AbstractDBObject {
     {
         return parent::deleteDataToDB(App::getAppDabaseObject());
     }//end store()
-    
+
     /**
      * Returns array including all metadata data of document
      */
@@ -91,12 +96,12 @@ class Document extends Core\AbstractDBObject {
     {
         return MetaDocument::getAllItemsDataFromDocument($this->getId());
     }
-    
+
     /**
      * Link an existing Tier to a this document.
-     * 
+     *
      * @param string $pStrTierUid     Tier Uid
-     * 
+     *
      * @return boolean OK?
      */
     public function addTierToDocument($pStrTierUid)
@@ -107,22 +112,22 @@ class Document extends Core\AbstractDBObject {
                     $this->getId(),
                     $pStrTierUid
             );
-            
+
             $this->executeSQLQuery($lStrSQL);
-            
+
         } catch (Exception $ex) {
                  $lArrOptions = array('msg' => 'Error during execution of a SQL Statement => '.$ex->getMessage());
             throw new AppExceptions\GenericException('DB_EXEC_SQL_PDO_FAIL', $lArrOptions);
         }
-        
+
         return true;
     }
-    
+
     /**
      * Link an existing Categorie to a this document.
-     * 
+     *
      * @param string $pStrCatUid     Categorie Uid
-     * 
+     *
      * @return boolean OK?
      */
     public function addCategorieToDocument($pStrCatUid)
@@ -133,16 +138,16 @@ class Document extends Core\AbstractDBObject {
                     $this->getId(),
                     $pStrCatUid
             );
-            
+
             $this->executeSQLQuery($lStrSQL);
-            
+
         } catch (Exception $ex) {
                  $lArrOptions = array('msg' => 'Error during execution of a SQL Statement => '.$ex->getMessage());
             throw new AppExceptions\GenericException('DB_EXEC_SQL_PDO_FAIL', $lArrOptions);
         }
-        
+
         return true;
     }
-    
-    
+
+
 }//end class

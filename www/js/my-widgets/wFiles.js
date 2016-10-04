@@ -1,7 +1,29 @@
 /**
  * My Widget Test
  *
- */
+
+*/
+
+(function ($) {
+    $.myObject = function (options) {
+        var opts = $.extend({}, $.myObject.defaults, options),
+        privateMethod = function (msg) {
+            alert(opts.start + ': ' + msg);
+        };
+
+        return {
+            publicMethod: function (msg) {
+                privateMethod(msg);
+            }
+        }
+    };
+    $.myObject.defaults = {
+        start: '1'
+    };
+
+})(jQuery);
+
+ /*
 $(function() {
     $.widget("iP.myButton", {
                _create: function() {
@@ -23,3 +45,4 @@ $(function() {
             $("#button3").myButton();
             $("#button3").myButton("move", 200);
          });
+*/

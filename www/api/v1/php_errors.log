@@ -1,6 +1,175 @@
-[01-Oct-2016 23:01:37 UTC] PHP Notice:  Undefined index: request in /var/www/html/php-myged/api/v1/api.php on line 26
-[01-Oct-2016 23:01:37 UTC] PHP Stack trace:
-[01-Oct-2016 23:01:37 UTC] PHP   1. {main}() /var/www/html/php-myged/api/v1/api.php:0
-[01-Oct-2016 23:18:15 UTC] PHP Notice:  Undefined index: request in /var/www/html/php-myged/api/v1/api.php on line 26
-[01-Oct-2016 23:18:15 UTC] PHP Stack trace:
-[01-Oct-2016 23:18:15 UTC] PHP   1. {main}() /var/www/html/php-myged/api/v1/api.php:0
+[04-Oct-2016 15:34:22 UTC] PHP Notice:  Undefined offset: 0 in /var/www/html/php-myged/application/classes/core/dbobject.aclass.php on line 530
+[04-Oct-2016 15:34:22 UTC] PHP Stack trace:
+[04-Oct-2016 15:34:22 UTC] PHP   1. {main}() /var/www/html/php-myged/api/v1/api.php:0
+[04-Oct-2016 15:34:22 UTC] PHP   2. MyGED\Core\API\API->processAPI() /var/www/html/php-myged/api/v1/api.php:27
+[04-Oct-2016 15:34:22 UTC] PHP   3. MyGED\Core\API\API->callEndPoint() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:165
+[04-Oct-2016 15:34:22 UTC] PHP   4. MyGED\Core\API\API->callEndpointByMethod() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:183
+[04-Oct-2016 15:34:22 UTC] PHP   5. MyGED\Core\API\API->processGenericGETResponse() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:192
+[04-Oct-2016 15:34:22 UTC] PHP   6. MyGED\Business\TypeDocument->__construct() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:398
+[04-Oct-2016 15:34:22 UTC] PHP   7. MyGED\Core\AbstractDBObject->__construct() /var/www/html/php-myged/application/classes/business/typedoc.class.php:26
+[04-Oct-2016 15:34:22 UTC] PHP   8. MyGED\Core\AbstractDBObject->loadDB() /var/www/html/php-myged/application/classes/core/dbobject.aclass.php:93
+[04-Oct-2016 15:34:22 UTC] PHP Warning:  Invalid argument supplied for foreach() in /var/www/html/php-myged/application/classes/core/dbobject.aclass.php on line 530
+[04-Oct-2016 15:34:22 UTC] PHP Stack trace:
+[04-Oct-2016 15:34:22 UTC] PHP   1. {main}() /var/www/html/php-myged/api/v1/api.php:0
+[04-Oct-2016 15:34:22 UTC] PHP   2. MyGED\Core\API\API->processAPI() /var/www/html/php-myged/api/v1/api.php:27
+[04-Oct-2016 15:34:22 UTC] PHP   3. MyGED\Core\API\API->callEndPoint() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:165
+[04-Oct-2016 15:34:22 UTC] PHP   4. MyGED\Core\API\API->callEndpointByMethod() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:183
+[04-Oct-2016 15:34:22 UTC] PHP   5. MyGED\Core\API\API->processGenericGETResponse() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:192
+[04-Oct-2016 15:34:22 UTC] PHP   6. MyGED\Business\TypeDocument->__construct() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:398
+[04-Oct-2016 15:34:22 UTC] PHP   7. MyGED\Core\AbstractDBObject->__construct() /var/www/html/php-myged/application/classes/business/typedoc.class.php:26
+[04-Oct-2016 15:34:22 UTC] PHP   8. MyGED\Core\AbstractDBObject->loadDB() /var/www/html/php-myged/application/classes/core/dbobject.aclass.php:93
+[04-Oct-2016 15:34:22 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/php-myged/application/classes/core/dbobject.aclass.php:530) in /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php on line 251
+[04-Oct-2016 15:34:22 UTC] PHP Stack trace:
+[04-Oct-2016 15:34:22 UTC] PHP   1. {main}() /var/www/html/php-myged/api/v1/api.php:0
+[04-Oct-2016 15:34:22 UTC] PHP   2. MyGED\Core\API\API->processAPI() /var/www/html/php-myged/api/v1/api.php:27
+[04-Oct-2016 15:34:22 UTC] PHP   3. MyGED\Core\API\API->callEndPoint() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:165
+[04-Oct-2016 15:34:22 UTC] PHP   4. MyGED\Core\API\API->callEndpointByMethod() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:183
+[04-Oct-2016 15:34:22 UTC] PHP   5. MyGED\Core\API\API->_response() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:192
+[04-Oct-2016 15:34:22 UTC] PHP   6. header() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:251
+[04-Oct-2016 16:27:18 UTC] PHP Fatal error:  Uncaught Error: Class '\MyGED\Business\file' not found in /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:462
+Stack trace:
+#0 /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php(200): MyGED\Core\API\API->processGenericPOSTResponse()
+#1 /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php(186): MyGED\Core\API\API->callEndpointByMethod()
+#2 /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php(168): MyGED\Core\API\API->callEndPoint()
+#3 /var/www/html/php-myged/api/v1/api.php(25): MyGED\Core\API\API->processAPI()
+#4 {main}
+  thrown in /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php on line 462
+[04-Oct-2016 16:29:08 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:156) in /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php on line 254
+[04-Oct-2016 16:29:08 UTC] PHP Stack trace:
+[04-Oct-2016 16:29:08 UTC] PHP   1. {main}() /var/www/html/php-myged/api/v1/api.php:0
+[04-Oct-2016 16:29:08 UTC] PHP   2. MyGED\Core\API\API->processAPI() /var/www/html/php-myged/api/v1/api.php:25
+[04-Oct-2016 16:29:08 UTC] PHP   3. MyGED\Core\API\API->callEndPoint() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:168
+[04-Oct-2016 16:29:08 UTC] PHP   4. MyGED\Core\API\API->callEndpointBySpecificRouteProcess() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:181
+[04-Oct-2016 16:29:08 UTC] PHP   5. MyGED\Application\AppAPIRouter->cb_POST_NewFile() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:230
+[04-Oct-2016 16:29:08 UTC] PHP   6. MyGED\Core\API\API->_response() /var/www/html/php-myged/api/v1/classes/router.class.php:157
+[04-Oct-2016 16:29:08 UTC] PHP   7. header() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:254
+[04-Oct-2016 16:36:39 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/php-myged/api/v1/classes/router.class.php:154) in /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php on line 258
+[04-Oct-2016 16:36:39 UTC] PHP Stack trace:
+[04-Oct-2016 16:36:39 UTC] PHP   1. {main}() /var/www/html/php-myged/api/v1/api.php:0
+[04-Oct-2016 16:36:39 UTC] PHP   2. MyGED\Core\API\API->processAPI() /var/www/html/php-myged/api/v1/api.php:26
+[04-Oct-2016 16:36:39 UTC] PHP   3. MyGED\Core\API\API->callEndPoint() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:164
+[04-Oct-2016 16:36:39 UTC] PHP   4. MyGED\Core\API\API->callEndpointBySpecificRouteProcess() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:182
+[04-Oct-2016 16:36:39 UTC] PHP   5. MyGED\Application\AppAPIRouter->cb_PUT_NewFile() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:234
+[04-Oct-2016 16:36:39 UTC] PHP   6. MyGED\Core\API\API->_response() /var/www/html/php-myged/api/v1/classes/router.class.php:159
+[04-Oct-2016 16:36:39 UTC] PHP   7. header() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:258
+[04-Oct-2016 16:38:50 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/php-myged/api/v1/classes/router.class.php:154) in /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php on line 258
+[04-Oct-2016 16:38:50 UTC] PHP Stack trace:
+[04-Oct-2016 16:38:50 UTC] PHP   1. {main}() /var/www/html/php-myged/api/v1/api.php:0
+[04-Oct-2016 16:38:50 UTC] PHP   2. MyGED\Core\API\API->processAPI() /var/www/html/php-myged/api/v1/api.php:26
+[04-Oct-2016 16:38:50 UTC] PHP   3. MyGED\Core\API\API->callEndPoint() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:164
+[04-Oct-2016 16:38:50 UTC] PHP   4. MyGED\Core\API\API->callEndpointBySpecificRouteProcess() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:182
+[04-Oct-2016 16:38:50 UTC] PHP   5. MyGED\Application\AppAPIRouter->cb_PUT_NewFile() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:234
+[04-Oct-2016 16:38:50 UTC] PHP   6. MyGED\Core\API\API->_response() /var/www/html/php-myged/api/v1/classes/router.class.php:159
+[04-Oct-2016 16:38:50 UTC] PHP   7. header() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:258
+[04-Oct-2016 16:39:11 UTC] PHP Notice:  Trying to get property of non-object in /var/www/html/php-myged/api/v1/classes/router.class.php on line 154
+[04-Oct-2016 16:39:11 UTC] PHP Stack trace:
+[04-Oct-2016 16:39:11 UTC] PHP   1. {main}() /var/www/html/php-myged/api/v1/api.php:0
+[04-Oct-2016 16:39:11 UTC] PHP   2. MyGED\Core\API\API->processAPI() /var/www/html/php-myged/api/v1/api.php:26
+[04-Oct-2016 16:39:11 UTC] PHP   3. MyGED\Core\API\API->callEndPoint() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:164
+[04-Oct-2016 16:39:11 UTC] PHP   4. MyGED\Core\API\API->callEndpointBySpecificRouteProcess() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:182
+[04-Oct-2016 16:39:11 UTC] PHP   5. MyGED\Application\AppAPIRouter->cb_PUT_NewFile() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:234
+[04-Oct-2016 16:39:23 UTC] PHP Warning:  Illegal string offset 'filename' in /var/www/html/php-myged/api/v1/classes/router.class.php on line 154
+[04-Oct-2016 16:39:23 UTC] PHP Stack trace:
+[04-Oct-2016 16:39:23 UTC] PHP   1. {main}() /var/www/html/php-myged/api/v1/api.php:0
+[04-Oct-2016 16:39:23 UTC] PHP   2. MyGED\Core\API\API->processAPI() /var/www/html/php-myged/api/v1/api.php:26
+[04-Oct-2016 16:39:23 UTC] PHP   3. MyGED\Core\API\API->callEndPoint() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:164
+[04-Oct-2016 16:39:23 UTC] PHP   4. MyGED\Core\API\API->callEndpointBySpecificRouteProcess() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:182
+[04-Oct-2016 16:39:23 UTC] PHP   5. MyGED\Application\AppAPIRouter->cb_PUT_NewFile() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:234
+[04-Oct-2016 16:39:32 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/php-myged/api/v1/classes/router.class.php:154) in /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php on line 258
+[04-Oct-2016 16:39:32 UTC] PHP Stack trace:
+[04-Oct-2016 16:39:32 UTC] PHP   1. {main}() /var/www/html/php-myged/api/v1/api.php:0
+[04-Oct-2016 16:39:32 UTC] PHP   2. MyGED\Core\API\API->processAPI() /var/www/html/php-myged/api/v1/api.php:26
+[04-Oct-2016 16:39:32 UTC] PHP   3. MyGED\Core\API\API->callEndPoint() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:164
+[04-Oct-2016 16:39:32 UTC] PHP   4. MyGED\Core\API\API->callEndpointBySpecificRouteProcess() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:182
+[04-Oct-2016 16:39:32 UTC] PHP   5. MyGED\Application\AppAPIRouter->cb_PUT_NewFile() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:234
+[04-Oct-2016 16:39:32 UTC] PHP   6. MyGED\Core\API\API->_response() /var/www/html/php-myged/api/v1/classes/router.class.php:159
+[04-Oct-2016 16:39:32 UTC] PHP   7. header() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:258
+[04-Oct-2016 16:41:17 UTC] PHP Notice:  Undefined property: MyGED\Application\AppAPIRouter::$request in /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php on line 134
+[04-Oct-2016 16:41:17 UTC] PHP Stack trace:
+[04-Oct-2016 16:41:17 UTC] PHP   1. {main}() /var/www/html/php-myged/api/v1/api.php:0
+[04-Oct-2016 16:41:17 UTC] PHP   2. MyGED\Application\AppAPIRouter->__construct() /var/www/html/php-myged/api/v1/api.php:25
+[04-Oct-2016 16:41:17 UTC] PHP   3. MyGED\Core\API\API->__construct() /var/www/html/php-myged/api/v1/classes/router.class.php:27
+[04-Oct-2016 16:41:17 UTC] PHP   4. MyGED\Core\API\API->cleaningAccordingMethod() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:120
+[04-Oct-2016 16:41:17 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/php-myged/api/v1/classes/router.class.php:154) in /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php on line 259
+[04-Oct-2016 16:41:17 UTC] PHP Stack trace:
+[04-Oct-2016 16:41:17 UTC] PHP   1. {main}() /var/www/html/php-myged/api/v1/api.php:0
+[04-Oct-2016 16:41:17 UTC] PHP   2. MyGED\Core\API\API->processAPI() /var/www/html/php-myged/api/v1/api.php:26
+[04-Oct-2016 16:41:17 UTC] PHP   3. MyGED\Core\API\API->callEndPoint() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:165
+[04-Oct-2016 16:41:17 UTC] PHP   4. MyGED\Core\API\API->callEndpointBySpecificRouteProcess() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:183
+[04-Oct-2016 16:41:17 UTC] PHP   5. MyGED\Application\AppAPIRouter->cb_PUT_NewFile() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:235
+[04-Oct-2016 16:41:17 UTC] PHP   6. MyGED\Core\API\API->_response() /var/www/html/php-myged/api/v1/classes/router.class.php:159
+[04-Oct-2016 16:41:17 UTC] PHP   7. header() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:259
+[04-Oct-2016 16:41:37 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:134) in /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php on line 259
+[04-Oct-2016 16:41:37 UTC] PHP Stack trace:
+[04-Oct-2016 16:41:37 UTC] PHP   1. {main}() /var/www/html/php-myged/api/v1/api.php:0
+[04-Oct-2016 16:41:37 UTC] PHP   2. MyGED\Core\API\API->processAPI() /var/www/html/php-myged/api/v1/api.php:26
+[04-Oct-2016 16:41:37 UTC] PHP   3. MyGED\Core\API\API->callEndPoint() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:165
+[04-Oct-2016 16:41:37 UTC] PHP   4. MyGED\Core\API\API->callEndpointBySpecificRouteProcess() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:183
+[04-Oct-2016 16:41:37 UTC] PHP   5. MyGED\Application\AppAPIRouter->cb_PUT_NewFile() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:235
+[04-Oct-2016 16:41:37 UTC] PHP   6. MyGED\Core\API\API->_response() /var/www/html/php-myged/api/v1/classes/router.class.php:159
+[04-Oct-2016 16:41:37 UTC] PHP   7. header() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:259
+[04-Oct-2016 18:00:21 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:134) in /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php on line 259
+[04-Oct-2016 18:00:21 UTC] PHP Stack trace:
+[04-Oct-2016 18:00:21 UTC] PHP   1. {main}() /var/www/html/php-myged/api/v1/api.php:0
+[04-Oct-2016 18:00:21 UTC] PHP   2. MyGED\Core\API\API->processAPI() /var/www/html/php-myged/api/v1/api.php:26
+[04-Oct-2016 18:00:21 UTC] PHP   3. MyGED\Core\API\API->callEndPoint() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:165
+[04-Oct-2016 18:00:21 UTC] PHP   4. MyGED\Core\API\API->callEndpointBySpecificRouteProcess() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:183
+[04-Oct-2016 18:00:21 UTC] PHP   5. MyGED\Application\AppAPIRouter->cb_PUT_NewFile() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:235
+[04-Oct-2016 18:00:21 UTC] PHP   6. MyGED\Core\API\API->_response() /var/www/html/php-myged/api/v1/classes/router.class.php:160
+[04-Oct-2016 18:00:21 UTC] PHP   7. header() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:259
+[04-Oct-2016 20:52:44 UTC] PHP Fatal error:  Uncaught Error: Call to protected method MyGED\Vault\Vault::storeFromContent() from context 'MyGED\Application\AppAPIRouter' in /var/www/html/php-myged/api/v1/classes/router.class.php:154
+Stack trace:
+#0 /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php(235): MyGED\Application\AppAPIRouter->cb_PUT_NewFile()
+#1 /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php(183): MyGED\Core\API\API->callEndpointBySpecificRouteProcess()
+#2 /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php(165): MyGED\Core\API\API->callEndPoint()
+#3 /var/www/html/php-myged/api/v1/api.php(26): MyGED\Core\API\API->processAPI()
+#4 {main}
+  thrown in /var/www/html/php-myged/api/v1/classes/router.class.php on line 154
+[04-Oct-2016 20:53:05 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method MyGED\Vault\VaultFs::storeFromContent() in /var/www/html/php-myged/application/data/vault.sclass.php:174
+Stack trace:
+#0 /var/www/html/php-myged/api/v1/classes/router.class.php(154): MyGED\Vault\Vault::storeFromContent('------WebKitFor...')
+#1 /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php(235): MyGED\Application\AppAPIRouter->cb_PUT_NewFile()
+#2 /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php(183): MyGED\Core\API\API->callEndpointBySpecificRouteProcess()
+#3 /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php(165): MyGED\Core\API\API->callEndPoint()
+#4 /var/www/html/php-myged/api/v1/api.php(26): MyGED\Core\API\API->processAPI()
+#5 {main}
+  thrown in /var/www/html/php-myged/application/data/vault.sclass.php on line 174
+[04-Oct-2016 20:53:29 UTC] PHP Fatal error:  Uncaught Error: Call to protected method MyGED\Vault\VaultFs::storeFileContent() from context 'MyGED\Vault\Vault' in /var/www/html/php-myged/application/data/vault.sclass.php:174
+Stack trace:
+#0 /var/www/html/php-myged/api/v1/classes/router.class.php(154): MyGED\Vault\Vault::storeFromContent('------WebKitFor...')
+#1 /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php(235): MyGED\Application\AppAPIRouter->cb_PUT_NewFile()
+#2 /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php(183): MyGED\Core\API\API->callEndpointBySpecificRouteProcess()
+#3 /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php(165): MyGED\Core\API\API->callEndPoint()
+#4 /var/www/html/php-myged/api/v1/api.php(26): MyGED\Core\API\API->processAPI()
+#5 {main}
+  thrown in /var/www/html/php-myged/application/data/vault.sclass.php on line 174
+[04-Oct-2016 20:53:45 UTC] PHP Warning:  filesize(): stat failed for 1 in /var/www/html/php-myged/application/data/vaultdb.sclass.php on line 39
+[04-Oct-2016 20:53:45 UTC] PHP Stack trace:
+[04-Oct-2016 20:53:45 UTC] PHP   1. {main}() /var/www/html/php-myged/api/v1/api.php:0
+[04-Oct-2016 20:53:45 UTC] PHP   2. MyGED\Core\API\API->processAPI() /var/www/html/php-myged/api/v1/api.php:26
+[04-Oct-2016 20:53:45 UTC] PHP   3. MyGED\Core\API\API->callEndPoint() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:165
+[04-Oct-2016 20:53:45 UTC] PHP   4. MyGED\Core\API\API->callEndpointBySpecificRouteProcess() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:183
+[04-Oct-2016 20:53:45 UTC] PHP   5. MyGED\Application\AppAPIRouter->cb_PUT_NewFile() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:235
+[04-Oct-2016 20:53:45 UTC] PHP   6. MyGED\Vault\Vault::storeFromContent() /var/www/html/php-myged/api/v1/classes/router.class.php:154
+[04-Oct-2016 20:53:45 UTC] PHP   7. MyGED\Vault\VaultDb::insertNewFile() /var/www/html/php-myged/application/data/vault.sclass.php:175
+[04-Oct-2016 20:53:45 UTC] PHP   8. filesize() /var/www/html/php-myged/application/data/vaultdb.sclass.php:39
+[04-Oct-2016 20:54:51 UTC] PHP Warning:  filesize(): stat failed for 1 in /var/www/html/php-myged/application/data/vaultdb.sclass.php on line 39
+[04-Oct-2016 20:54:51 UTC] PHP Stack trace:
+[04-Oct-2016 20:54:51 UTC] PHP   1. {main}() /var/www/html/php-myged/api/v1/api.php:0
+[04-Oct-2016 20:54:51 UTC] PHP   2. MyGED\Core\API\API->processAPI() /var/www/html/php-myged/api/v1/api.php:26
+[04-Oct-2016 20:54:51 UTC] PHP   3. MyGED\Core\API\API->callEndPoint() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:165
+[04-Oct-2016 20:54:51 UTC] PHP   4. MyGED\Core\API\API->callEndpointBySpecificRouteProcess() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:183
+[04-Oct-2016 20:54:51 UTC] PHP   5. MyGED\Application\AppAPIRouter->cb_PUT_NewFile() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:235
+[04-Oct-2016 20:54:51 UTC] PHP   6. MyGED\Vault\Vault::storeFromContent() /var/www/html/php-myged/api/v1/classes/router.class.php:154
+[04-Oct-2016 20:54:51 UTC] PHP   7. MyGED\Vault\VaultDb::insertNewFile() /var/www/html/php-myged/application/data/vault.sclass.php:176
+[04-Oct-2016 20:54:51 UTC] PHP   8. filesize() /var/www/html/php-myged/application/data/vaultdb.sclass.php:39
+[04-Oct-2016 20:55:13 UTC] PHP Warning:  filesize(): stat failed for 1 in /var/www/html/php-myged/application/data/vaultdb.sclass.php on line 39
+[04-Oct-2016 20:55:13 UTC] PHP Stack trace:
+[04-Oct-2016 20:55:13 UTC] PHP   1. {main}() /var/www/html/php-myged/api/v1/api.php:0
+[04-Oct-2016 20:55:13 UTC] PHP   2. MyGED\Core\API\API->processAPI() /var/www/html/php-myged/api/v1/api.php:26
+[04-Oct-2016 20:55:13 UTC] PHP   3. MyGED\Core\API\API->callEndPoint() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:165
+[04-Oct-2016 20:55:13 UTC] PHP   4. MyGED\Core\API\API->callEndpointBySpecificRouteProcess() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:183
+[04-Oct-2016 20:55:13 UTC] PHP   5. MyGED\Application\AppAPIRouter->cb_PUT_NewFile() /var/www/html/php-myged/application/classes/core/api/api-router.aclass.php:235
+[04-Oct-2016 20:55:13 UTC] PHP   6. MyGED\Vault\Vault::storeFromContent() /var/www/html/php-myged/api/v1/classes/router.class.php:154
+[04-Oct-2016 20:55:13 UTC] PHP   7. MyGED\Vault\VaultDb::insertNewFile() /var/www/html/php-myged/application/data/vault.sclass.php:176
+[04-Oct-2016 20:55:13 UTC] PHP   8. filesize() /var/www/html/php-myged/application/data/vaultdb.sclass.php:39

@@ -3,14 +3,157 @@
     margin : 0;
 }
 
-/* Header */
-header H1 {
+/* *************************************************************************** *
+ * Main Page Header                                                            *
+ * *************************************************************************** */
+#myged-mainpage-header {
+    background-color: #1e5a96;
+}
+
+#myged-mainpage-header H2 {
+    float: left;
     padding : 4px 15px;
-    background-color: grey;
-    margin : 0 0 3px 0;
+    color: white;
+    font-size : 1.4em;
+    align-items: baseline;
+    margin : 13px 5px 3px 5px;
+}
+
+#myged-mainpage-header-infos {
+    float: right;
+    margin-right: 10px;
+    margin-top : 13px;
+    padding : 5px 10px ;
+    background-color: #0d2c4a;
+    color : white;
+    font-size : 0.8em;
+    border-radius: 3px;
 }
 
 /* DocManager */
+/* => Section */
+.myged-content-panel,
+.myged-doctable-container {
+    width: 100%;
+    min-height: 100%;
+    background-color: #dce6ee;
+    padding-top : 10px;
+    padding-bottom : 10px;
+}
+
+#myged-documenttable-panel {
+    min-height : 900px;
+}
+
+/* HEADER Item bout Title of Container */
+#myged-doctable-container-title {
+    background-color: #2980d6;
+    float : left;
+    padding-left : 20px;
+    padding-top : 10px;
+    padding-bottom : 10px;
+    padding-right:  20px;
+    border-bottom-right-radius:  20px;
+    color : white;
+    font-style: italic;
+}
+
+/* Document Table */
+.myged-documenttable {
+    width : 98%;
+    border-color: black;
+    border-style: solid;
+    border-width: thin;
+
+    margin : auto;
+    border-collapse: collapse;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+
+}
+.myged-documenttable-header TH{
+    border-bottom: #0d3b5f solid thin;
+    background-color: #b7d3e9;
+
+    padding : 5px;
+}
+
+.myged-documenttable-body {
+    text-align: center;
+    font-size: 0.9em;
+}
+
+.myged-documenttable-row {
+    text-align: center;
+}
+
+.myged-documenttable-row:HOVER{
+    cursor: pointer;
+}
+
+.myged-documenttable-row-style1 {
+    background-color: #e6f2fb;
+}
+
+.myged-documenttable-row-style2 {
+    background-color: #c4e2fa;
+}
+
+.myged-documenttable-row-column-actions *{
+    margin : 2px 5px;
+}
+
+.myged-documenttable-panel-buttons {
+    margin : 10px;
+    border-radius: 3px;
+    /*background-color: green;*/
+
+}
+
+.myged-documenttable-panel-button {
+    float : right;
+    padding-top : 4px;
+    margin : 5px;
+
+}
+
+#myged-upload-dropzone {
+    height : 400px;
+    margin : auto;
+    border-style: dashed;
+    border-width: thin;
+    border-color: #b7d3e9;
+}
+
+.box__dragndrop,
+.box__uploading,
+.box__success,
+.box__error {
+  display: none;
+}
+
+.box.has-advanced-upload {
+  background-color: white;
+  outline: 2px dashed black;
+  outline-offset: -10px;
+}
+.box.has-advanced-upload .box__dragndrop {
+  display: inline;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* Header */
 
@@ -66,7 +209,7 @@ margin-right : 5px;
 
 .frm-datagrid ASIDE  LI {
     list-style: none;
-        display: inline-block;
+    display: block;
     margin : 2px;
 }
 
@@ -116,7 +259,15 @@ margin-right : 5px;
     border-bottom-right-radius : 10px;
 }
 
-FOOTER {
-    background-color : red;
+/* Page Footer */
+#myged-mainpage-footer {
+    position : fixed;
+    text-align: center;
+    width : 100%;
+    bottom: 0px;
+    padding : 15px 0px;
+    background-color : #1e5a96;
+    color :white;
+    font-size : 0.95em;
     clear: both;
 }
