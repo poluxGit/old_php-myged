@@ -4,10 +4,10 @@ services:
     image: polux/web-srv:dev
     container_name: web-srv-02
     networks:
-        - my-network
+        - internal
     ports:
-      - "80:80"
-      - "9000:9000"
+      - "8080:80"
+      - "9090:9000"
 
 
     volumes:
@@ -15,5 +15,4 @@ services:
       - ./logs-apache2:/var/log/apache2/
       - ./logs-php:/var/log/php/
 networks:
-   my-network:
-    external: true
+   internal:

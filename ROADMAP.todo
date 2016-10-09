@@ -1,0 +1,18 @@
+Version alpha-01:
+☐ API Restful- Enregistrement de fichiers
+☐ Interface de visualisation des fichiers non liés.
+☐ API File TODEV
+☐ Links in document to files API to add.
+
+Version alpha-02:
+☐ Evolution API (ajout d'une structure de retour type {code: , message: 'Traitement OK', data: [...] }
+☐ Vues d'édition pour Document
+☐ Processus de qualification de fichiers non lié à des documents démarré
+
+Version 1 - PROD:
+☐ Procédure d'extraction du Vault et d'export complet
+☐ INTEGRATION : Mise en place de procédure de backup (cron) / A etudier
+
+
+Autres Taches:
+☐ Jenkins configuré

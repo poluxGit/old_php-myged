@@ -4,13 +4,15 @@
         <title>jPHP - MyGED @ PoLuX</title>
         <meta charset="utf-8">
         <meta name="description" content="165c. uniques">
-        
+
+        <link rel="stylesheet" type="text/css" href="styles/main.css " >
         <link rel="stylesheet" type="text/css" href="styles/ui-myged-main-gui.css " >
         <link rel="stylesheet" type="text/css" href="js/lib/jquery-ui-1.12.0/jquery-ui.css" >
         <script src="js/lib/jquery-3.1.0.js"></script>
         <script src="js/lib/jquery-ui-1.12.0/jquery-ui.js"></script>
         <script src="js/my-widgets/ui-myged-uploadbox.js"></script>
         <script src="js/my-widgets/ui-myged-documenttable.js"></script>
+        <script src="js/my-widgets/ui-myged-filestable.js"></script>
         <script src="js/ui-myged-main-gui.js"></script>
         <script src="js/main-myged-js-script.js"></script>
 </head>
@@ -22,8 +24,12 @@
         <image src='styles/img/AppMainImage.png' width='50px' height='50px' style='float:left; margin :5px' />
         <h2>jPHP|MyGED @ PoluX</h2>
 
+
+
         <div id="myged-mainpage-header-infos">
             Size : 8GB TODEV
+        </div>
+        <div id="myged-main-message" style="display:none;">
         </div>
         <p style="clear:left;"></p>
     </header>
@@ -34,7 +40,11 @@
     </section>
 
     <!-- Page FOOTER -->
-    <footer id="myged-mainpage-footer"> v. dev-01 - <a href='mailto:polux@poluxfr.org'>@PoLuX</a></footer>
+    <footer id="myged-mainpage-footer"> v. dev-01 - <a href='mailto:polux@poluxfr.org'>@PoLuX</a>
+        <div id="myged-main-logger" >
+            <ul></ul>
+        </div>
+    </footer>
 
 </body>
 </html>

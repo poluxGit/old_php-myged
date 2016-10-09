@@ -49,3 +49,13 @@ Cannot load Xdebug - it was already loaded
 [Fri Sep 30 20:48:48.427393 2016] [core:warn] [pid 8] AH00098: pid file /var/run/apache2/apache2.pid overwritten -- Unclean shutdown of previous Apache run?
 [Fri Sep 30 20:48:48.429758 2016] [mpm_prefork:notice] [pid 8] AH00163: Apache/2.4.18 (Ubuntu) configured -- resuming normal operations
 [Fri Sep 30 20:48:48.429780 2016] [core:notice] [pid 8] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.19.0.2. Set the 'ServerName' directive globally to suppress this message
+Cannot load Xdebug - it was already loaded
+[Sun Oct 09 11:29:22.112196 2016] [mpm_prefork:notice] [pid 8] AH00163: Apache/2.4.18 (Ubuntu) configured -- resuming normal operations
+[Sun Oct 09 11:29:22.112246 2016] [core:notice] [pid 8] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.19.0.2. Set the 'ServerName' directive globally to suppress this message
+Cannot load Xdebug - it was already loaded
+[Sun Oct 09 20:27:48.738317 2016] [core:warn] [pid 7] AH00098: pid file /var/run/apache2/apache2.pid overwritten -- Unclean shutdown of previous Apache run?
+[Sun Oct 09 20:27:48.740379 2016] [mpm_prefork:notice] [pid 7] AH00163: Apache/2.4.18 (Ubuntu) configured -- resuming normal operations
+[Sun Oct 09 20:27:48.740404 2016] [core:notice] [pid 7] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+[Sun Oct 09 21:33:13.435118 2016] [:error] [pid 24] [client 172.19.0.1:56978] PHP Warning:  Unknown: POST Content-Length of 13278655 bytes exceeds the limit of 8388608 bytes in Unknown on line 0, referer: http://localhost:8080/php-myged/index_mckp-UI-02.html

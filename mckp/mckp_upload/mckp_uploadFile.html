@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+        <title>jPHP - MyGED @ PoLuX</title>
+        <meta charset="utf-8">
+        <meta name="description" content="165c. uniques">
+        <link rel="stylesheet" type="text/css" href="styles/main-upmckp.css " >
+        <link rel="stylesheet" type="text/css" href="js/lib/jquery-ui-1.12.0/jquery-ui.css" >
+        <script src="js/lib/jquery-3.1.0.js"></script>
+        <script src="js/lib/jquery-ui-1.12.0/jquery-ui.js"></script>
+        <script src="js/lib/underscore.js"></script>
+        <script src="js/main-myged-js-script_mckp_upload.js"></script>
+        <script src="js/my-widgets/mckp_upload.js"></script>
+        
+</head>
+
+<body>
+
+    <!-- Page HEADER -->
+    <header id="myged-mainpage-header">
+        <image src='styles/img/AppMainImage.png' width='50px' height='50px' style='float:left; margin :5px' />
+        <h2>jPHP|MyGED @ PoluX</h2>
+
+        <div id="myged-mainpage-header-infos">
+            Size : 8GB TODEV
+        </div>
+        <p style="clear:left;"></p>
+    </header>
+
+
+    <div id="myged-uploadBox">
+
+        Drag And Drop your files HERE
+
+
+    </div>
+
+
+    <!-- Page CONTENT (SECTION) -->
+    <section class="myged-content-panel">
+        <div id="myged-content-panel">
+            <div id="myged-documenttable-panel">
+            </div>
+        </div>
+    </section>
+
+    <!-- UPLOAD Dialog Box -->
+    <div id="myged-dialog-upload" style="display:none;">
+          <form class="box" method="post" action="" enctype="multipart/form-data">
+          <div class="box__input">
+            <input class="box__file" type="file" name="files[]" id="file" data-multiple-caption="{count} files selected" multiple />
+            <label for="file"><strong> Choose a file </strong><span class="box__dragndrop"> or drag it here</span>.</label>
+            <button class="box__button" type="submit">Upload</button>
+          </div>
+          <div class="box__uploading">Uploading&hellip;</div>
+          <div class="box__success">Done!</div>
+          <div class="box__error">Error! <span></span>.</div>
+        </form>
+    </div>
+
+    <!-- Page FOOTER -->
+    <footer id="myged-mainpage-footer"> v. dev-01 - <a href='mailto:polux@poluxfr.org'>@PoLuX</a></footer>
+
+</body>
+</html>

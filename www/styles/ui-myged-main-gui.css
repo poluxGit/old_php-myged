@@ -1,0 +1,156 @@
+
+* {
+    margin : 0;
+}
+
+
+/* *************************************************************************** *
+ * Upload Box Widget                                                           *
+ * *************************************************************************** */
+.myged-upload-box {
+    display:block;
+    clear:none;
+    width: 250px;
+    height : auto;
+    border-radius: 4px;
+    border-style: dashed;
+    border-width: thin;
+    border-color: black;
+    margin:auto;
+
+    padding : 3px;
+    text-align: center;
+}
+
+.myged-upload-dragOver {
+    border-color: red;
+    border-width: thick;
+}
+
+.myged-upload-uploading {
+    border-color: orange;
+    border-width: thin;
+}
+
+.myged-upload-ok {
+    border-color: green;
+    border-width: thin;
+}
+
+/* HEADER Item bout Title of Container */
+/* TODO Update with class */
+#myged-doctable-container-title {
+    background-color: #2980d6;
+    float : left;
+    padding-left : 20px;
+    padding-top : 10px;
+    padding-bottom : 10px;
+    padding-right:  20px;
+    border-bottom-right-radius:  20px;
+    color : white;
+    font-style: italic;
+}
+
+/* Document Table */
+.myged-documenttable,.myged-filestable {
+    width : 98%;
+    border-color: black;
+    border-style: solid;
+    border-width: thin;
+
+    margin : auto;
+    border-collapse: collapse;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+
+}
+.myged-documenttable-header TH,
+.myged-filestable-header TH {
+    border-bottom: #0d3b5f solid thin;
+    background-color: #b7d3e9;
+
+    padding : 5px;
+}
+
+.myged-documenttable-body ,
+.myged-filestable-body {
+    text-align: center;
+    font-size: 0.9em;
+}
+
+.myged-documenttable-row,
+.myged-filestable-row  {
+    text-align: center;
+}
+
+.myged-documenttable-row:HOVER,
+.myged-documenttable-row:HOVER{
+    cursor: pointer;
+}
+
+.myged-documenttable-row-style1,
+.myged-filestable-row-style1 {
+    background-color: #e6f2fb;
+}
+
+.myged-documenttable-row-style2,
+.myged-filestable-row-style2 {
+    background-color: #c4e2fa;
+}
+
+.myged-documenttable-row-column-actions *,
+.myged-filestable-row-column-actions *{
+    margin : 2px 5px;
+}
+
+.myged-documenttable-panel-buttons {
+    display:block;
+    min-width: 100px;
+    float:right;
+    border-bottom-left-radius: 10px;
+    background-color: #c4e2fa;
+
+}
+
+.myged-documenttable-panel-button {
+    float : right;
+    border-radius: 5px;
+    padding-top : 4px;
+    margin : 5px;
+}
+
+/* Logger & Message */
+.myged-mainpage-logger {
+    float:right;
+    height: 50px;
+    max-height: 50px;
+    margin : 10px;
+    overflow-y:  hidden;
+    background-color: #abbaa8;
+    border-radius: 8px;
+    padding : 10px;
+}
+.myged-mainpage-logger LI{
+    list-style-type: none;
+    font-size: x-small;
+
+
+}
+
+LI.myged-mainpage-logger-last{
+    font-weight: bolder;
+
+}
+
+.myged-mainpage-message {
+    float:right;
+    margin-top: 8px;
+    margin-right: 30px;
+    padding: 10px 20px ;
+    background-color: #38ae24;
+    color : white;
+    font-weight: bolder;
+    border-radius: 7px;
+    font-size: 0.8em;
+
+}

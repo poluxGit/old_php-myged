@@ -189,4 +189,36 @@ class VaultDb {
         return $lStrResult;
     }//end getFileMimeType()
 
+
+    /**
+     * Get All files metadata
+     *
+     * @return array(string) Array about files in the Vault
+     */
+    public static function getAllFiles()
+    {
+        $lArrResult = null;
+        try {
+
+            $lObjDb = Vault::getPDOVaultDBObject();
+
+            $lStrSQLQuerySelFiles = "SELECT * FROM vault_files";
+
+            $lObjStat = $lObjDb->query($lStrSQLQuerySelFiles,\PDO::FETCH_ASSOC);
+            $lArrDataAllRows = $lObjStat->fetchAll();
+
+            if(count($lArrDataAllRows) !== 0)
+            {
+                $lArrResult = $lArrDataAllRows;
+            }
+        }
+        catch (\Exception $e)
+        {
+            $lArrOptions = array('msg'=> 'Error during getting an information about a file into DB => '.$e->getMessage());
+            throw new AppExceptions\GenericException('VAULT_DB_GET_FILEMETA_FAILED',$lArrOptions);
+        }
+        return $lArrResult;
+    }//end getAllFiles()
+
+
 }//End class

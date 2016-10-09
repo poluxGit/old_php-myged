@@ -46,7 +46,9 @@ class AppAPIRouter extends API
         static::setSpecificRoute('GET','#^typedocument/[0-9A-Za-z\-]*/getmeta/#', 'cb_GET_TypeDocumentGetMeta', 'document');
 
         // API File relatives Routes
+        static::setSpecificRoute('GET','#^file/#', 'cb_GET_getAllFiles', 'file');
         static::setSpecificRoute('GET','#^file/[0-9A-Za-z\-]*#', 'cb_GET_getFileContent', 'file');
+        static::setSpecificRoute('DELETE','#^file/[0-9A-Za-z\-]*#', 'cb_DELETE_FileIntoDB', 'file');
         static::setSpecificRoute('PUT','#^file/#', 'cb_PUT_NewFile', 'document');
         static::setSpecificRoute('POST','#^file/#', 'cb_POST_NewFile', 'document');
 
@@ -248,6 +250,35 @@ class AppAPIRouter extends API
         return $this->_responseSpecificType($lStrFileContent,$lStrContentType);
     }
 
+
+    /**
+     * CallBack  file in GET Request
+     *
+     * Create and store a new File
+     * @internal grab '#^file/#' URI
+     *
+     * @return string Message
+     */
+    protected function cb_GET_getAllFiles() {
+        // Getting Data
+        $lArrFiles = VaultAppDb::getAllFiles();
+        return $this->_response($lArrFiles,200);
+    }//end cb_GET_getAllFiles
+
+    /**
+     * CallBack  file in DELETE Request
+     *
+     * Create and store a new File
+     * @internal grab '#^file/#' URI
+     *
+     * @return string Message
+     */
+    protected function cb_DELETE_FileIntoDB() {
+        // Getting Data
+        $lStrFileID = array_shift($this->args);
+        $lBoolResult = VaultAppDb::deleteFile($lStrFileID);
+        return $this->_response($lBoolResult,200);
+    }//end cb_DELETE_FileIntoDB
 
     /**
      * Update fields on Business Object concerned by request.
