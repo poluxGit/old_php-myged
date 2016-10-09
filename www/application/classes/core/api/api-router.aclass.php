@@ -79,6 +79,30 @@ abstract class API {
      */
     protected $file = null;
 
+    /**
+     * Property: fileContent
+     * Stores the input of the PUT request
+     *
+     * @var string
+     */
+    protected $fileContent = null;
+
+    /**
+     * Property: fileName
+     * Stores the input of the PUT request
+     *
+     * @var string
+     */
+    protected $fileName = null;
+
+    /**
+     * Property: fileName
+     * Stores the input of the PUT request
+     *
+     * @var string
+     */
+    protected $fileType = null;
+
      /**
      * Property: origin
       *
@@ -95,9 +119,6 @@ abstract class API {
      */
     public function __construct($request,$origin) {
 
-        header("Access-Control-Allow-Orgin: *");
-        header("Access-Control-Allow-Methods: *");
-        header("Content-Type: application/json");
 
         $this->origin = $origin;
         $this->args = explode('/', rtrim($request, '/'));
@@ -131,15 +152,115 @@ abstract class API {
                 $this->request = $this->_cleanInputs($_GET);
                 break;
             case 'PUT':
-                //    print_r(file_get_contents("php://input"));
-                parse_str(file_get_contents("php://input"), $this->request);
+                $lArr = $this->_parsePut();
                 $this->file = file_get_contents("php://input");
+                $this->cleanFilesUploadedFromInputStream();
                 break;
             default:
                 $this->_response('Invalid Method', 405);
                 break;
         }
     }
+
+    private function _parsePut(  )
+    {
+
+
+    /* PUT data comes in on the stdin stream */
+    $putdata = fopen("php://input", "r");
+
+    /* Open a file for writing */
+    // $fp = fopen("myputfile.ext", "w");
+
+    $raw_data = '';
+
+    /* Read the data 1 KB at a time
+       and write to the file */
+    while ($chunk = fread($putdata, 1024))
+        $raw_data .= $chunk;
+
+    /* Close the streams */
+    fclose($putdata);
+
+    // Fetch content and determine boundary
+    $boundary = substr($raw_data, 0, strpos($raw_data, "\r\n"));
+
+    if(empty($boundary)){
+        parse_str($raw_data,$data);
+        $GLOBALS[ '_PUT' ] = $data;
+        return;
+    }
+
+    // Fetch each part
+    $parts = array_slice(explode($boundary, $raw_data), 1);
+    $data = array();
+
+    foreach ($parts as $part) {
+        // If this is the last part, break
+        if ($part == "--\r\n") break;
+
+        // Separate content from headers
+        $part = ltrim($part, "\r\n");
+        list($raw_headers, $body) = explode("\r\n\r\n", $part, 2);
+
+        // Parse the headers list
+        $raw_headers = explode("\r\n", $raw_headers);
+        $headers = array();
+        foreach ($raw_headers as $header) {
+            list($name, $value) = explode(':', $header);
+            $headers[strtolower($name)] = ltrim($value, ' ');
+        }
+
+        // Parse the Content-Disposition to get the field name, etc.
+        if (isset($headers['content-disposition'])) {
+            $filename = null;
+            $tmp_name = null;
+            preg_match(
+                '/^(.+); *name="([^"]+)"(; *filename="([^"]+)")?/',
+                $headers['content-disposition'],
+                $matches
+            );
+            list(, $type, $name) = $matches;
+
+            //Parse File
+            if( isset($matches[4]) )
+            {
+                //if labeled the same as previous, skip
+                if( isset( $_FILES[ $matches[ 2 ] ] ) )
+                {
+                    continue;
+                }
+
+                //get filename
+                $filename = $matches[4];
+
+                //get tmp name
+                $filename_parts = pathinfo( $filename );
+                $tmp_name = tempnam( ini_get('upload_tmp_dir'), $filename_parts['filename']);
+
+                //populate $_FILES with information, size may be off in multibyte situation
+                $_FILES[ $matches[ 2 ] ] = array(
+                    'error'=>0,
+                    'name'=>$filename,
+                    'tmp_name'=>$tmp_name,
+                    'size'=>strlen( $body ),
+                    'type'=>$value
+                );
+
+                //place in temporary directory
+                file_put_contents($tmp_name, $body);
+            }
+            //Parse Field
+            else
+            {
+                $data[$name] = substr($body, 0, strlen($body) - 2);
+            }
+        }
+
+    }
+    //$GLOBALS[ '_PUT' ] = $data;
+    return $data;
+}
 
     /**
      * Processing API Action
@@ -256,9 +377,31 @@ abstract class API {
      * @return mixed    HTTP Response
      */
     protected function _response($data, $status = 200) {
+        header("Access-Control-Allow-Orgin: *");
+        header("Access-Control-Allow-Methods: *");
+        header("Content-Type: application/json");
         header("HTTP/1.1 " . $status . " " . $this->_requestStatus($status));
         return json_encode($data);
     }
+
+
+    /**
+     * Send HTTP response specific Content-Type
+     *
+     * @param mixed     $data               Data provided
+     * @param string    $pStrContentType    Content Type
+     * @param intger    $status             HTTP Status Code
+     *
+     * @return mixed    HTTP Response
+     */
+    protected function _responseSpecificType($data, $pStrContentType, $status = 200) {
+        header("Access-Control-Allow-Orgin: *");
+        header("Access-Control-Allow-Methods: *");
+        header("Content-Type: ".$pStrContentType);
+        header("HTTP/1.1 " . $status . " " . $this->_requestStatus($status));
+        return $data;
+    }
+
 
     /**
      * Cleaning Inputs
@@ -504,8 +647,6 @@ abstract class API {
 
     }//end processGenericDELETEResponse()
 
-
-
     /**
      * Processing HTTP PUT request
      *
@@ -536,6 +677,88 @@ abstract class API {
         return $lStrUIDData;
 
     }//end processGenericPOSTResponse()
+
+
+    /**
+     * Prepare files data
+     */
+    protected function cleanFilesUploadedFromInputStream()
+    {
+        $lStrFileAndHeaderData = $this->file;
+        $this->fileContent = '';
+
+        // Generate unique temporay filenames.
+        $lStrInTmpFile = tempnam('/tmp','UPL-INTMPFILE_');
+        $lStrOutTmpFile = tempnam('/tmp','UPL-OUTTMPFILE_');
+
+        // Store Content in Tmp File
+        file_put_contents($lStrInTmpFile,$lStrFileAndHeaderData);
+
+        // TODO Optimisation - utiliser fgets
+
+        // Reading line by lines to split ContentHeader and FileContent !
+        $lArrlines = file($lStrInTmpFile);
+        foreach ($lArrlines as $lIntNumber => $lStrlineContent)
+        {
+            // Ignoring first and end line
+            if(intval($lIntNumber) !== 0 && intval($lIntNumber) !== (count($lArrlines)-1) )
+            {
+                // Identifying Content*
+                if(strcmp(str_replace('Content','',$lStrlineContent),$lStrlineContent) !== 0)
+                {
+                    // Content-Disposition: form-data; name="fileUpload"; filename="AppMainImage.png"
+                    $lArrMatches = null;
+                    $lStrResult = null;
+
+                    $lStrPattern_File = '/filename=\"(.*?)\"/i';
+                    preg_match($lStrPattern_File, $lStrlineContent, $lArrMatches);
+
+                    // var_dump($lArrMatches);
+                    // var_dump($lStrlineContent);
+
+                    // Seeking filename !
+                    if(count($lArrMatches)>1)
+                    {
+                        $lStrResult = $lArrMatches[1];
+
+                        // Filename founded!
+                        if(!empty($lStrResult))
+                        {
+                            $this->fileName = $lStrResult;
+                        }
+                    }
+
+                    // Content-Type: image/png
+                    $lArrMatches = null;
+                    $lStrResult = null;
+                    $lStrPattern_ContentType = '/Content-Type: (.*\/?)/i';
+                    preg_match($lStrPattern_ContentType, $lStrlineContent, $lArrMatches);
+
+                    //var_dump($lArrMatches);
+
+                    // Seeking filetype !
+                    if(count($lArrMatches)>1)
+                    {
+                        $lStrResult = $lArrMatches[1];
+                        //print_r('fileType => '.$lStrResult);
+                        // Filename founded!
+                        if(!empty($lStrResult))
+                        {
+                            $this->fileType = $lStrResult;
+                        }
+                    }
+                }
+                else // File content.
+                {
+                    if(!empty($lStrlineContent)){
+                        $this->fileContent .= $lStrlineContent;
+                    }
+                }
+
+            }//end if
+        }//end foreach
+
+    }//end cleanFilesUploadedFromInputStream()
 
 
 }

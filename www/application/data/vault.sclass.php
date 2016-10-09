@@ -163,14 +163,15 @@ class Vault {
         return self::$_sVaultPath;
     }
 
-    public static function storeFromContent($pMixedContent)
+    public static function storeFromContent($pMixedContent,$pStrOriginalFilename='',$pStrFileTypeMime='')
     {
         $lStrUniqueIdDoc = self::generateUniqueID('fic-');
 
         try {
-            $lStrFilePath = VaultFs::storeFileContent($lStrUniqueIdDoc, $pMixedContent,'tmp');
-            print_r($lStrFilePath);
-            VaultDb::insertNewFile($lStrUniqueIdDoc, basename($lStrFilePath), $lStrFilePath);
+
+            $lStrExtensionFile = substr($pStrOriginalFilename,stripos($pStrOriginalFilename,'.')+1);
+            $lStrFilePath = VaultFs::storeFileContent($lStrUniqueIdDoc, $pMixedContent,$lStrExtensionFile);
+            VaultDb::insertNewFile($lStrUniqueIdDoc, basename($pStrOriginalFilename), $lStrFilePath,$pStrFileTypeMime);
         }
         catch(\Exception $ex)
         {

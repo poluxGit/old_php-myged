@@ -70,7 +70,7 @@ abstract class AbstractDBObject
      * @var array(string) Array of fieldname about data table
      */
     protected $_oPdoDBHandler = null;
-    
+
     /**
      * Flag isNew ?
      *
@@ -88,28 +88,28 @@ abstract class AbstractDBObject
     {
         static::setupDBConfig();
         $this->resetObject();
-        
+
         if (!is_null($pStrUid)) {
             if (!$this->loadDB($pStrUid,$pObjPDODb)) {
                 $lArrOptions = array('msg' => 'Technical Error during laoding DBObject (id:'.$pStrUid);
                 throw new AppExceptions\GenericException('CORE_DB_LOAD_FAIL', $lArrOptions);
             }
-            
+
         } else {
             $this->_isNew = true;
         }
-        
+
         if(!is_null($pObjPDODb))
         {
             $this->_oPdoDBHandler = $pObjPDODb;
         }
-        
+
     }//end __construct()
 
-    
+
     /**
      * Reset all attributes of current object.
-     * 
+     *
      * @access private
      */
     private function resetObject()
@@ -117,16 +117,16 @@ abstract class AbstractDBObject
         $this->_aFieldValuesUpdated = array();
         $this->_aFieldValues        = array();
         $this->_isNew               = false;
-        
+
         // Instanciation an occurrence for each field into array!
         foreach(self::$_aFieldNames as $lStrDbFieldName)
         {
             $this->_aFieldValues[$lStrDbFieldName] = null;
-        }        
+        }
     }
-    
+
     /**
-     * Returns current object Uid 
+     * Returns current object Uid
      *
      * @return string
      */
@@ -170,7 +170,7 @@ abstract class AbstractDBObject
     protected function storeDataToDB($pObjPDODb=null)
     {
         try {
-            
+
             // PDO Db Object
             if(!is_null($pObjPDODb))
             {
@@ -191,13 +191,23 @@ abstract class AbstractDBObject
                 // Mode INSERT!
                 $lStrFullClassname = get_class($this);
                 $laStrClassname = explode('\\', $lStrFullClassname);
-                
-                $lStrClassname = $laStrClassname[\count($laStrClassname)-1];
-                
-                $lStrCharClassName = strtolower(substr($lStrClassname, 0, 3));
-                $lStrIdxDoc = Vault::generateUniqueID($lStrCharClassName.'-');
-                $this->_aFieldValues[self::$_sIdDBFieldname] = $lStrIdxDoc;
 
+                $lStrClassname = $laStrClassname[\count($laStrClassname)-1];
+
+                if(empty($this->_aFieldValues[self::$_sIdDBFieldname]))
+                {
+                    $lArrOptions = array(
+                        'msg' => sprintf(
+                            "An Uid must be specified on current object before storage into SQL DB (ID:%s)",
+                            $lStrIdxDoc
+                        )
+                    );
+                    throw new AppExceptions\GenericException('APP_DB_STORE_SQL - ABORTED', $lArrOptions);
+                }
+                else
+                {
+                    $lStrIdxDoc = $this->_aFieldValues[self::$_sIdDBFieldname];
+                }
                 $lStrSQL = $this->generateSQLInsertOrder();
             } else {
                 // Mode UPDATE!
@@ -232,8 +242,8 @@ abstract class AbstractDBObject
 
         return true;
     }//end storeDataFromDB()
-    
-    
+
+
     /**
      * Store data into Database.
      *
@@ -242,7 +252,7 @@ abstract class AbstractDBObject
     protected function deleteDataToDB($pObjPDODb=null)
     {
         try {
-            
+
             // PDO Db Object
             if(!is_null($pObjPDODb))
             {
@@ -258,8 +268,8 @@ abstract class AbstractDBObject
                 );
                 throw new AppExceptions\GenericException('APP_DB_NO_DB_HANDLER', $lArrOptions);
             }
-            
-             
+
+
             $lStrSQL = $this->generateSQLDeleteOrder();
             $lObjPdoStat = $lObjDb->query($lStrSQL);
 
@@ -275,7 +285,7 @@ abstract class AbstractDBObject
                 );
                 throw new AppExceptions\GenericException('APP_DB_STORE_SQL -FAILED', $lArrOptions);
             }
-            
+
         } catch (\Exception $ex) {
             $lArrOptions = array('msg' => $ex->getMessage());
             throw new AppExceptions\GenericException('APP_DB_STORE_FAILED', $lArrOptions);
@@ -283,7 +293,7 @@ abstract class AbstractDBObject
 
         return true;
     }//end storeDataFromDB()
-    
+
     /**
      * Returns an attribute value, null if not found
      *
@@ -302,7 +312,7 @@ abstract class AbstractDBObject
                 $lStrResult = $this->_aFieldValues[$pStrAttrName];
             }
         }
-        
+
         if(empty($lStrResult))
         {
             $lStrResult = null;
@@ -310,7 +320,7 @@ abstract class AbstractDBObject
 
         return $lStrResult;
     }
-    
+
      /**
      * Returns an array with all field value.
      *
@@ -318,14 +328,14 @@ abstract class AbstractDBObject
      */
     public function getAllAttributeValueToArray()
     {
-        
+
         $lStrArray = array();
         $lStrArray = array_merge($lStrArray,$this->_aFieldValues,$this->_aFieldValuesUpdated);
-        
+
         return $lStrArray;
     }
-    
-    
+
+
 
     /**
      * Defines an attribute value.
@@ -349,10 +359,10 @@ abstract class AbstractDBObject
 
     /**
      * Returns all items of concerned class
-     * 
+     *
      * @param \PDO      $pObjPDODb              Database PDO Object
      * @param string    $pStrWhereCondition     WHERE Condition
-     * 
+     *
      * @return array(mixed)
      * @throws AppExceptions\GenericException
      */
@@ -361,15 +371,15 @@ abstract class AbstractDBObject
        try {
             // PDO Db Object
             $lObjDb = $pObjPDODb;
-            
+
             $lStrSQL = self::generateSQLSelectOrder();
-            
+
             if(!is_null($pStrWhereCondition)){
                 $lStrSQL .= "WHERE ".$pStrWhereCondition;
             }
-            
+
             //XXX echo $lStrSQL;
-            
+
             $lObjPdoStat = $lObjDb->query($lStrSQL);
 
             if(!$lObjPdoStat)
@@ -378,7 +388,7 @@ abstract class AbstractDBObject
                 throw new AppExceptions\GenericException('APP_DB_LOAD_PDO_FAIL', $lArrOptions);
             }
             else {
-                $lArrData = $lObjPdoStat->fetchAll(\PDO::FETCH_ASSOC);                
+                $lArrData = $lObjPdoStat->fetchAll(\PDO::FETCH_ASSOC);
             }
         } catch (\Exception $e) {
             $lArrOptions = array('msg' => $e->getMessage());
@@ -387,16 +397,16 @@ abstract class AbstractDBObject
 
         return $lArrData;
     }//end getAllItems()
-   
+
     /**
      * Get an array resulting of an SQL Query
-     * 
+     *
      * @throws MyGED\Core\Exceptions\GenericException
-     * 
+     *
      * @param string    $pStrSQL    SQL SELECT QUERY
      * @param \PDO      $pObjPDODb
      *
-     * @return array(mixed)  Array of data 
+     * @return array(mixed)  Array of data
      */
     public function getDataFromSQLQuery($pStrSQL,$pObjPDODb=null)
     {
@@ -436,16 +446,16 @@ abstract class AbstractDBObject
 
         return $lArrData;
     }//end getDataFromSQLQuery()
-    
+
     /**
      * Execute an SQL Query
-     * 
+     *
      * @throws MyGED\Core\Exceptions\GenericException
-     * 
+     *
      * @param string    $pStrSQL    SQL SELECT QUERY
      * @param \PDO      $pObjPDODb
      *
-     * @return array(mixed)  Array of data 
+     * @return array(mixed)  Array of data
      */
     public function executeSQLQuery($pStrSQL,$pObjPDODb=null)
     {
@@ -475,7 +485,7 @@ abstract class AbstractDBObject
                 $lArrOptions = array('msg' => $lObjDb->errorInfo()[2]);
                 throw new AppExceptions\GenericException('DB_EXEC_SQL_PDO_FAIL', $lArrOptions);
             }
-            
+
         } catch (\Exception $e) {
             $lArrOptions = array('msg' => 'Error during loading a data from DB => '.$e->getMessage());
             throw new AppExceptions\GenericException('DB_EXEC_SQL_PDO_FAIL', $lArrOptions);
@@ -483,17 +493,17 @@ abstract class AbstractDBObject
 
         return true;
     }//end executeSQLQuery()
-    
-    
+
+
     /**
      * Load Object from Database.
-     * 
+     *
      * @throws MyGED\Core\Exceptions\GenericException
-     * 
+     *
      * @param string    $pStrSQL    SQL SELECT QUERY
      * @param \PDO      $pObjPDODb
      *
-     * @return array(mixed)  Array of data 
+     * @return array(mixed)  Array of data
      */
     public function loadDB($pStrUid,$pObjPDODb=null)
     {
@@ -516,7 +526,7 @@ abstract class AbstractDBObject
 
             $lStrSQL = self::generateSQLSelectOrder();
             $lStrSQL .= $this->getSQLWhereCondition($pStrUid);
-            
+
 
             $lObjPdoStat = $lObjDb->query($lStrSQL);
 
@@ -539,7 +549,7 @@ abstract class AbstractDBObject
 
         return true;
     }//end loadDB()
-    
+
 
     /**
      * Returns a SQL SELECT FIELD part of query
@@ -565,7 +575,7 @@ abstract class AbstractDBObject
      * Returns a SQL INSERT VALUES FIELD part of insert query.
      *
      * @internal same order than definition of fields
-     * 
+     *
      * @return string 'FieldValue','FieldValue2' ....'
      */
     protected function getFieldValuesToSQLStringForInsert()
@@ -585,7 +595,7 @@ abstract class AbstractDBObject
             else
             {
                 $lStrFieldNames .= " ''";
-            }   
+            }
         }
         return $lStrFieldNames;
     }//end getFieldValuesToSQLStringForInsert()
@@ -613,7 +623,7 @@ abstract class AbstractDBObject
      * Returns a SQL UPDATE VALUES FIELD DEFINTION.
      *
      * @return string Fieldname1 = 'FieldValue1', Fieldname2 = 'FieldValue2' ...
-     * 
+     *
      * @return string Update SQL Query value
      */
     protected function getFieldValuesToSQLStringForUpdate()
@@ -621,13 +631,13 @@ abstract class AbstractDBObject
         $lStrFieldNames = '';
 
         foreach (self::$_aFieldNames as $lStrFieldDef) {
-            
+
             if (array_key_exists($lStrFieldDef, $this->_aFieldValuesUpdated) && !empty($this->_aFieldValuesUpdated[$lStrFieldDef])) {
-                
+
                 if (!empty($lStrFieldNames)) {
                     $lStrFieldNames .= ', ';
                 }
-                
+
                 $lStrFieldNames .= sprintf(" %s = '%s'", $lStrFieldDef, $this->_aFieldValuesUpdated[$lStrFieldDef]);
             }
         }
@@ -678,7 +688,7 @@ abstract class AbstractDBObject
                 $this->getSQLWhereCondition()
         );
     }
-    
+
      /**
      * Generate A Simple SQL Delete Order for current object
      *
@@ -692,12 +702,12 @@ abstract class AbstractDBObject
                 $this->getSQLWhereCondition()
         );
     }
-    
+
     /**
      * Returns TRUE if Fieldname defined for current class.
-     * 
+     *
      * @param string $pStrFieldName Name of the field to check.
-     * 
+     *
      * @return boolean  TRUE if Fieldanme defined elseif FALSE
      */
     public function isValidFieldForClass($pStrFieldName)
@@ -712,29 +722,29 @@ abstract class AbstractDBObject
      * @abstract
      */
     abstract public static function setupDBConfig();
-    
+
     /**
      * Returns all Class Items filtered.
-     * 
+     *
      * @return array(mixed)
      * @abstract
      */
     abstract public static function getAllClassItemsData($pStrWhereCondition);
-    
+
     /**
      * Record data into database
-     * 
+     *
      * @return boolean TRUE if OK
      * @abstract
      */
     abstract public function store();
-    
+
      /**
      * Delete data into database
-     * 
+     *
      * @return boolean TRUE if OK
      * @abstract
      */
     abstract public function delete();
-    
+
 }//end class

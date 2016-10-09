@@ -3,6 +3,35 @@
     margin : 0;
 }
 
+
+/* *************************************************************************** *
+ * Upload Box Widget                                                           *
+ * *************************************************************************** */
+.myged-upload-box {
+    display:block;
+    width: 150px;
+    height : 100px;
+    border-style: dashed;
+    border-width: thin;
+    border-color: black;
+}
+
+.myged-upload-dragOver {
+    border-color: red;
+    border-width: thick;
+}
+
+.myged-upload-uploading {
+    border-color: orange;
+    border-width: thin;
+}
+
+.myged-upload-ok {
+    border-color: green;
+    border-width: thin;
+}
+
+
 /* *************************************************************************** *
  * Main Page Header                                                            *
  * *************************************************************************** */

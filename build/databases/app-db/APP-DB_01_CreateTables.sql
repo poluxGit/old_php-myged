@@ -106,7 +106,7 @@ CREATE TABLE app_meta_doc
 (
     doc_id VARCHAR(50) not null,
     meta_id VARCHAR(20) not null,
-    tdoc_id VARCHAR(20) not null,
+    tdoc_id VARCHAR(20) default null,
     mdoc_title VARCHAR(100) default 'MetaInstance title - have to be define',
     mdoc_value VARCHAR(4000),
     primary key (doc_id,meta_id,tdoc_id),
@@ -136,4 +136,13 @@ CREATE TABLE app_asso_docs_cats
     primary key (doc_id, cat_id),
     FOREIGN KEY(doc_id) REFERENCES app_documents(doc_id),
     FOREIGN KEY(cat_id) REFERENCES app_categories(cat_id)
+);
+
+-- Table Association Docs <-> Files
+CREATE TABLE app_asso_docs_files
+(
+    doc_id VARCHAR(20) not null,
+    file_id VARCHAR(20) not null,
+    primary key (doc_id, file_id),
+    FOREIGN KEY(doc_id) REFERENCES app_documents(doc_id)
 );

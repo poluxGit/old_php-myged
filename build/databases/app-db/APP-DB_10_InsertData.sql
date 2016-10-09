@@ -23,14 +23,18 @@
 /* Categories */
 INSERT INTO app_categories(cat_id,cat_title,cat_code,cat_desc) VALUES ('cat-administratif','Administratif','CAT-ADMIN','Documents administratifs.');
 
-
 /* Tiers */
 INSERT INTO app_tiers(tier_id,tier_title,tier_code,tier_desc) VALUES ('tie-edf','Electricité de France','EDF','Fournisseur d électricité');
 INSERT INTO app_tiers(tier_id,tier_title,tier_code,tier_desc) VALUES ('tie-gdf','GDF Suez','GDF','Fournisseur de Gaz.');
 INSERT INTO app_tiers(tier_id,tier_title,tier_code,tier_desc) VALUES ('tie-bouygues','Bouygues Telecom','BTCOM','FAI.');
 INSERT INTO app_tiers(tier_id,tier_title,tier_code,tier_desc) VALUES ('tie-deficis','Agence Immo - DEFICIS','DEFICIS','Agence immobilière Nicolas DEFICIS.');
 
-
 /* Type de Document */
 INSERT INTO app_typesdoc(tdoc_id,tdoc_title,tdoc_code,tdoc_desc) VALUES ('tdoc-factures','Facture','FACT','Tous les types de factures.');
 INSERT INTO app_typesdoc(tdoc_id,tdoc_title,tdoc_code,tdoc_desc) VALUES ('tdoc-bullpaies','Bulletin de paie','BPAI','Bulletins de salaires.');
+
+/* Meta Type Doc */
+INSERT INTO app_meta_tdoc(meta_id,tdoc_id,meta_title,meta_desc,meta_datatype) VALUES ('mtdoc-bullpaies-01','tdoc-bullpaies','Montant BRUT','Montant BRUT du Salaire','euros');
+INSERT INTO app_meta_tdoc(meta_id,tdoc_id,meta_title,meta_desc,meta_datatype) VALUES ('mtdoc-bullpaies-02','tdoc-bullpaies','Montant NET','Montant NET du Salaire','euros');
+INSERT INTO app_meta_tdoc(meta_id,tdoc_id,meta_title,meta_desc,meta_datatype) VALUES ('mtdoc-factures-01','tdoc-factures','Date de Facturation','Date de Facturation.','date');
+INSERT INTO app_meta_tdoc(meta_id,tdoc_id,meta_title,meta_desc,meta_datatype) VALUES ('mtdoc-factures-02','tdoc-factures','Montant T.T.C','Montant de la facture','euros');

@@ -35,7 +35,6 @@ class Categorie extends Core\AbstractDBObject {
      */
     public static function getDocById($pStrDocId)
     {
-        // TODO To dev when vault OK
         return new Categorie($pStrDocId);
     }//end getDocById()
 

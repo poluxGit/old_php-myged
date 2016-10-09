@@ -227,7 +227,7 @@ class VaultFs {
             throw new AppExceptions\GenericException('VAULT_FS_STORE_CONTENT',$lArrOptions);
         }
 
-        return true;
+        return $lStrOutFilepath;
     }//end storeFileContent()
 
 

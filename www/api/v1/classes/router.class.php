@@ -11,6 +11,7 @@ use MyGED\Core\API\API as API;
 use MyGED\Core\Exceptions as Exceptions;
 use MyGED\Business as Business;
 use MyGED\Vault\Vault as VaultApp;
+use MyGED\Vault\VaultDb as VaultAppDb;
 
 /**
  * Application API Class definition
@@ -35,6 +36,8 @@ class AppAPIRouter extends API
 
         static::setSpecificRoute('POST','#^document/[0-9A-Za-z\-]*/addtier/[0-9A-Za-z\-]*#', 'cb_POST_DocumentAddTier', 'document');
         static::setSpecificRoute('POST','#^document/[0-9A-Za-z\-]*/addcat/[0-9A-Za-z\-]*#', 'cb_POST_DocumentAddCat', 'document');
+
+        // Documents & Files ...
         static::setSpecificRoute('POST','#^document/[0-9A-Za-z\-]*/file/#', 'cb_POST_DocumentFileAddFileAndLink', 'document');
         static::setSpecificRoute('POST','#^document/[0-9A-Za-z\-]*/file/[0-9A-Za-z\-]*#', 'cb_POST_DocumentAddLink', 'document');
         static::setSpecificRoute('DELETE','#^document/[0-9A-Za-z\-]*/file/[0-9A-Za-z\-]*#', 'cb_DELETE_DocumentFileDeleteLink', 'document');
@@ -45,7 +48,8 @@ class AppAPIRouter extends API
         // API File relatives Routes
         static::setSpecificRoute('GET','#^file/[0-9A-Za-z\-]*#', 'cb_GET_getFileContent', 'file');
         static::setSpecificRoute('PUT','#^file/#', 'cb_PUT_NewFile', 'document');
-        //static::setSpecificRoute('PUT','#document/doc-57b9b6c0d3006/addmeta/#', 'test', 'document');
+        static::setSpecificRoute('POST','#^file/#', 'cb_POST_NewFile', 'document');
+
     }
 
     /**
@@ -151,10 +155,99 @@ class AppAPIRouter extends API
      */
     protected function cb_PUT_NewFile() {
         // Getting Data
-        $lStrFileVaultFS = VaultApp::storeFromContent($this->file);
-
-        return $this->_response($lStrFileVaultFS,200);
+        //$lStrFileID = VaultApp::storeFromContent($this->fileContent,$this->fileName,$this->fileType);
+        return $this->_response('PUT Method doesn\'t work to upload file ! Use POST method instead.',500);
     }
+
+    /**
+     * CallBack Document file in PUT Request
+     *
+     * Create and store a new File
+     * @internal grab '#^file/#' URI
+     * @deprecated
+     * @return string Message
+     */
+    protected function cb_POST_NewFile() {
+        // Getting Data
+        $lStrFileID = VaultApp::storeFromContent($_POST['file'],$_POST['filename'],$_POST['filetype']);
+        return $this->_response($lStrFileID,200);
+    }//end cb_POST_NewFile()
+
+    /**
+     * CallBack Document file in POST Request
+     *
+     * Create and store a new File and link it to the document
+     *
+     * @return string Message
+     */
+    protected function cb_POST_DocumentFileAddFileAndLink() {
+        // Getting Data
+
+        // File Storage !
+        $lArrFileUploaded = array_shift($_FILES);
+        $lStrFileID = VaultApp::storeFromContent(file_get_contents($lArrFileUploaded['tmp_name']),$lArrFileUploaded['name'],$lArrFileUploaded['type']);
+
+        $lStrDocUID = array_shift($this->args);
+        $lObjDoc = new Business\Document($lStrDocUID);
+        $lObjDoc->linkFile($lStrFileID);
+        return $this->_response($lStrFileID,200);
+    }//end cb_POST_DocumentFileAddFileAndLink()
+
+
+    /**
+     * CallBack Document file in POST Request
+     *
+     * Create and store a new File and link it to the document
+     *
+     * @return string Message
+     */
+    protected function cb_POST_DocumentAddLink() {
+        // Getting Data
+
+        $lStrDocUID  = array_shift($this->args);
+        $lStrFileUID = array_shift($this->args);
+        $lObjDoc = new Business\Document($lStrDocUID);
+
+        return $this->_response($lObjDoc->linkFile($lStrFileUID),200);
+    }//end cb_POST_DocumentAddLink()
+
+
+    /**
+     * CallBack Document file in DELETE Request
+     *
+     * Create and store a new File and link it to the document
+     *
+     * @return string Message
+     */
+    protected function cb_DELETE_DocumentFileDeleteLink() {
+        // Getting Data
+
+        $lStrDocUID  = array_shift($this->args);
+        $lStrFileUID = array_shift($this->args);
+        $lObjDoc = new Business\Document($lStrDocUID);
+
+        return $this->_response($lObjDoc->deleteLinkFile($lStrFileUID),200);
+    }//end cb_POST_DocumentAddLink()
+
+
+
+
+    /**
+     * CallBack Document file in PUT Request
+     *
+     * Create and store a new File
+     * @internal grab '#^file/#' URI
+     *
+     * @return string Message
+     */
+    protected function cb_GET_getFileContent() {
+        // Getting Data
+        $lStrDocUID = array_shift($this->args);
+        $lStrFileContent = VaultApp::getFileContentByID($lStrDocUID);
+        $lStrContentType = VaultAppDb::getFileMimeType($lStrDocUID);
+        return $this->_responseSpecificType($lStrFileContent,$lStrContentType);
+    }
+
 
     /**
      * Update fields on Business Object concerned by request.
