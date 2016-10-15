@@ -8,8 +8,6 @@ services:
     ports:
       - "8080:80"
       - "9090:9000"
-
-
     volumes:
       - /home/polux/Projects/php-myged/www:/var/www/html/php-myged/
       - ./logs-apache2:/var/log/apache2/
