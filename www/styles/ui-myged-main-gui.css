@@ -103,6 +103,10 @@
     margin : 2px 5px;
 }
 
+.myged-filestable-row-column-actions IMG{
+    cursor: pointer;
+}
+
 .myged-documenttable-panel-buttons {
     display:block;
     min-width: 100px;
@@ -152,5 +156,103 @@ LI.myged-mainpage-logger-last{
     font-weight: bolder;
     border-radius: 7px;
     font-size: 0.8em;
+}
 
+/* *************************************************************************** *
+ * CreateDocForm Dialog                                                        *
+ * *************************************************************************** */
+ .myged-dialog-form-createdoc {
+     font-size: 0.9em;
+ }
+
+
+ /* First Fieldset (AutoFields) */
+ .myged-dialog-form-createdoc-fdlst-autofields {
+     margin-bottom: 10px;
+
+ }
+ .myged-dialog-form-createdoc-fdlst-autofields LABEL {
+     float:left;
+     margin-top : 5px;
+ }
+ .myged-dialog-form-createdoc-fdlst-autofields INPUT {
+     float:left;
+     clear: none;
+ }
+
+/* Second fieldset -> Cat, TypeDoc, Tier */
+ .myged-dialog-form-createdoc-fdlst-selects {
+     margin-bottom: 10px;
+ }
+
+ .myged-dialog-form-createdoc-fdlst-selects LABEL {
+     float : left;
+     width : 20%;
+     text-align: right;
+     margin: 0px 5px;
+     margin-top:5px;
+ }
+ .myged-dialog-form-createdoc-fdlst-selects SELECT {
+     display: block;
+     margin-top : 5px;
+     width : 75%;
+ }
+
+ /* Third fieldset - Main Attributes */
+ .myged-dialog-form-createdoc-fdlst-mainattributes {
+     margin-bottom: 10px;
+ }
+
+ .myged-dialog-form-createdoc-fdlst-mainattributes LABEL {
+     float : left;
+     width : 20%;
+     text-align: right;
+     margin: 0px 5px;
+     margin-top:5px;
+ }
+ .myged-dialog-form-createdoc-fdlst-mainattributes INPUT,
+ .myged-dialog-form-createdoc-fdlst-mainattributes TEXTAREA {
+     display: block;
+     margin-top : 5px;
+     width : 75%;
+ }
+
+ .myged-dialog-form-createdoc-tdocmetas {
+     margin-bottom: 10px;
+ }
+
+ .myged-dialog-form-createdoc-tdocmetas  LABEL {
+     float : left;
+     width : 20%;
+     text-align: right;
+     margin: 0px 5px;
+     margin-top:5px;
+ }
+ .myged-dialog-form-createdoc-tdocmetas  INPUT,
+ .myged-dialog-form-createdoc-tdocmetas  TEXTAREA {
+     display: block;
+     margin-top : 5px;
+     width : 75%;
+ }
+
+
+/* Generic class */
+.myged-dialog-form-createdoc LABEL {
+    margin-left:10px;
+}
+
+.myged-dialog-form-createdoc SELECT {
+    display:inline;
+    margin-left:10px;
+}
+
+.myged-dialog-form-createdoc BUTTON {
+    clear: left;
+    float: right;
+    margin-left: 5px;
+}
+
+.myged-dialog-form-createdoc INPUT {
+margin-left: 5px;
+margin-top:5px;
 }

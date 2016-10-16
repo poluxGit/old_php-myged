@@ -80,7 +80,12 @@ class Document extends Core\AbstractDBObject {
     public function store()
     {
         parent::storeDataToDB(App::getAppDabaseObject());
-        $this->initializeMetadataFromTypeDoc();
+        // $lStrDocID = $this->getId();
+        // print_r('ID3:'.$lStrDocID);
+        // $this->initializeMetadataFromTypeDoc();
+        // $lStrDocID = $this->getId();
+        // print_r('ID3:'.$lStrDocID);
+        // print_r('Fin ID3');
 
     }//end store()
 
@@ -97,7 +102,11 @@ class Document extends Core\AbstractDBObject {
      */
     public function getAllMetadataDataInArray()
     {
-        return MetaDocument::getAllItemsDataFromDocument($this->getId());
+        $lStrSQL = sprintf(
+            "SELECT doc_id,meta_id,tdoc_id,mdoc_title,mdoc_value FROM app_meta_doc md  WHERE md.doc_id = '%s'",
+            $this->getId()
+        );
+        return $this->getDataFromSQLQuery($lStrSQL);
     }
 
     /**
@@ -152,6 +161,34 @@ class Document extends Core\AbstractDBObject {
         return true;
     }
 
+    /**
+     * Update a Metadata value for Document.
+     *
+     * @param string $pStrMetaID        Metadata Uid
+     * @param string $pStrMetaValue     Metadata Value
+     *
+     * @return boolean OK?
+     */
+    public function setMetaValueForDocument($pStrMetaID,$pStrMetaValue)
+    {
+        try{
+            $lStrSQL = sprintf(
+                    "UPDATE app_meta_doc SET mdoc_value='%s' WHERE meta_id = '%s' and doc_id = '%s'",
+                    $pStrMetaValue,
+                    $pStrMetaID,
+                    $this->getId()
+            );
+
+            $this->executeSQLQuery($lStrSQL);
+
+        } catch (Exception $ex) {
+                 $lArrOptions = array('msg' => 'Error during execution of a SQL Statement => '.$ex->getMessage());
+            throw new AppExceptions\GenericException('DB_EXEC_SQL_PDO_FAIL', $lArrOptions);
+        }
+
+        return true;
+    }//end setMetaValueForDocument()
+
 
     /**
      * Link an existing File to this document.
@@ -181,6 +218,32 @@ class Document extends Core\AbstractDBObject {
 
 
     /**
+     * Returns an array of all file_id of this Document
+     *
+     * @return array(string)
+     */
+    public function getAllFilesOfDocument()
+    {
+        $lArrResult = null;
+        try{
+            $lStrSQL = sprintf(
+                    "SELECT file_id FROM app_asso_docs_files WHERE doc_id='%s'",
+                    $this->getId()
+            );
+
+            $lArrResult = $this->getDataFromSQLQuery($lStrSQL);
+
+        } catch (Exception $ex) {
+                 $lArrOptions = array('msg' => 'Error during execution of a SQL Statement => '.$ex->getMessage());
+            throw new AppExceptions\GenericException('DB_EXEC_SQL_PDO_FAIL', $lArrOptions);
+        }
+
+        return $lArrResult;
+    }// end getAllFilesOfDocument()
+
+
+
+    /**
      * Delete an existing link between a file and this document
      *
      * @param string $pStrFileUid     File Uid
@@ -207,15 +270,12 @@ class Document extends Core\AbstractDBObject {
     }//End deleteLinkFile()
 
 
-    public function addNewMetaToDocument($pStrMetaId,$pStrTypeDoc,$pStrMetaTitle,$pStrMetaValue)
+    public static function addNewMetaToDocument($pStrDocId,$pStrMetaId,$pStrTypeDoc,$pStrMetaTitle,$pStrMetaValue)
     {
-print_r('ThisID2 : '.$this->getId());
         $lObjMetaDoc = new MetaDocument();
 
-
-
         $lObjMetaDoc->setAttributeValue('meta_id',$pStrMetaId);
-        $lObjMetaDoc->setAttributeValue('doc_id',$this->getId());
+        $lObjMetaDoc->setAttributeValue('doc_id', $pStrDocId);
         $lObjMetaDoc->setAttributeValue('tdoc_id',$pStrTypeDoc);
         $lObjMetaDoc->setAttributeValue('mdoc_title',$pStrMetaTitle);
         $lObjMetaDoc->setAttributeValue('mdoc_value',$pStrMetaValue);
@@ -229,7 +289,8 @@ print_r('ThisID2 : '.$this->getId());
 
     public function initializeMetadataFromTypeDoc()
     {
-        print_r('ThisID1 : '.$this->getId());
+        $lStrDocID = $this->getId();
+
         $lStrTypeDoc = $this->getAttributeValue('tdoc_id');
         if(!empty($lStrTypeDoc))
         {
@@ -238,15 +299,19 @@ print_r('ThisID2 : '.$this->getId());
             //print_r($lArrMetaTypeDoc);
             foreach($lArrMetaTypeDoc as $lArrMetaDef)
             {
-                $this->addNewMetaToDocument(
-                    $lArrMetaDef['meta_id'],
-                    $lArrMetaDef['tdoc_id'],
-                    $lArrMetaDef['meta_title'],
-                    ''
-                );
+                if(!empty($lArrMetaDef))
+                {
+                    $lStrIdMeta = self::addNewMetaToDocument(
+                        $lStrDocID,
+                        $lArrMetaDef['meta_id'],
+                        $lArrMetaDef['tdoc_id'],
+                        $lArrMetaDef['meta_title'],
+                        ''
+                    );
+                    //print_r('Meta created : '.$lStrIdMeta.' for DocIC:'.$lStrDocID);
+                }
             }
         }
-
     }//end _initializeMetadataFromTypeDoc()
 
 }//end class

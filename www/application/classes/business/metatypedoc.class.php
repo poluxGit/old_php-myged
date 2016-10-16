@@ -2,35 +2,34 @@
 
 /**
  * MetaTypeDocument class file definition
- * 
+ *
  * @package Core
  * @author polux <polux@poluxfr.org>
  */
 namespace MyGED\Business;
 
 use MyGED\Application\App as App;
-
 use MyGED\Core as Core;
 
 /**
  * MetaTypeDocument Class
- * 
+ *
  * Defintion of a MetaTypeDocument
  */
 class MetaTypeDocument extends Core\AbstractDBObject {
-    
+
     /**
      * Default Class Constructor - New MetaDocument
      */
     public function __construct($pStrUid=null) {
         parent::__construct($pStrUid,App::getAppDabaseObject());
     }//end __construct()
-    
+
     /**
      * getDocById
-     * 
+     *
      * Returns a Document by his id
-     * 
+     *
      * @param string $pStrDocId
      * @return \Document
      */
@@ -39,10 +38,10 @@ class MetaTypeDocument extends Core\AbstractDBObject {
         // TODO To dev when vault OK
         return new MetaTypeDocument($pStrDocId);
     }//end getDocById()
-    
+
      /**
      * Database config set up
-     * 
+     *
      * @static
      */
     public static function setupDBConfig()
@@ -55,10 +54,15 @@ class MetaTypeDocument extends Core\AbstractDBObject {
             'tdoc_id',
             'meta_title',
             'meta_desc',
-            'meta_datatype'
+            'meta_datatype',
+            'meta_pattern',
+            'meta_required',
+            'meta_placeholder',
+            'meta_mask',
+            'meta_json_html_attributes'
         );
     }
-    
+
     /**
      * Store Data
      */
@@ -66,19 +70,19 @@ class MetaTypeDocument extends Core\AbstractDBObject {
     {
         parent::storeDataToDB(App::getAppDabaseObject());
     }
-    
+
     /**
-     * Returns all records about your class 
-     * 
+     * Returns all records about your class
+     *
      * @param string $pStrWhereCondition Filtering Condition (without WHERE)
-     * 
+     *
      * @return array(mixed)
      */
     public static function getAllClassItemsData($pStrWhereCondition=null)
     {
         return static::getAllItems(App::getAppDabaseObject(), $pStrWhereCondition);
     }//end getAllClassItemsData()
-    
+
      /**
      * Delete Data
      */
@@ -86,12 +90,12 @@ class MetaTypeDocument extends Core\AbstractDBObject {
     {
         return parent::deleteDataToDB(App::getAppDabaseObject());
     }//end store()
-    
+
     /**
      * Returns all records about your class about a Type of Document
-     * 
+     *
      * @param string $pStrTypeDocUID  Type of Document Uid concerned.
-     * 
+     *
      * @return array(mixed)
      */
     public static function getAllItemsDataFromTypeDocument($pStrTypeDocUID)
@@ -100,5 +104,5 @@ class MetaTypeDocument extends Core\AbstractDBObject {
         static::setupDBConfig();
         return static::getAllItems(App::getAppDabaseObject(), $lStrWhereCondition);
     }//end getAllItemsDataFromTypeDocument()
-    
+
 }//end class

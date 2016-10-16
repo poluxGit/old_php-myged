@@ -4,3 +4,6 @@
 /docs/
 /nbproject/project.xml
 /nbproject/project.properties
+/nbproject/
+/www/api/v1/php_errors.log
+/www/data/vault/files/fic*

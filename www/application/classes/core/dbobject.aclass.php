@@ -167,10 +167,9 @@ abstract class AbstractDBObject
      *
      * @return bool
      */
-    protected function storeDataToDB($pObjPDODb=null)
+    protected function storeDataToDB($pObjPDODb=null,$pbAutoGenerateUid=true)
     {
         try {
-
             // PDO Db Object
             if(!is_null($pObjPDODb))
             {
@@ -196,13 +195,22 @@ abstract class AbstractDBObject
 
                 if(empty($this->_aFieldValues[self::$_sIdDBFieldname]))
                 {
-                    $lArrOptions = array(
-                        'msg' => sprintf(
-                            "An Uid must be specified on current object before storage into SQL DB (ID:%s)",
-                            $lStrIdxDoc
-                        )
-                    );
-                    throw new AppExceptions\GenericException('APP_DB_STORE_SQL - ABORTED', $lArrOptions);
+                    if($pbAutoGenerateUid)
+                    {
+                        $lStrIdxDoc = Vault::generateUniqueID();
+                        $this->_aFieldValues[self::$_sIdDBFieldname] = $lStrIdxDoc;
+                    }
+                    else
+                    {
+                        $lArrOptions = array(
+                            'msg' => sprintf(
+                                "An Uid must be specified on current object before storage into SQL DB (ID:%s)",
+                                $lStrIdxDoc
+                            )
+                        );
+                        throw new AppExceptions\GenericException('APP_DB_STORE_SQL - ABORTED', $lArrOptions);
+                    }
+
                 }
                 else
                 {
@@ -232,6 +240,7 @@ abstract class AbstractDBObject
             else
             {
                 // Reload object from database!
+                //print_r($lStrIdxDoc);
                 $this->resetObject();
                 $this->loadDB($lStrIdxDoc,$pObjPDODb);
             }

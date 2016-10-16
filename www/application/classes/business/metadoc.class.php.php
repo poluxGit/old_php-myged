@@ -79,7 +79,7 @@ class MetaDocument extends Core\AbstractDBObject {
         return static::getAllItems(App::getAppDabaseObject(), $pStrWhereCondition);
     }//end getAllClassItemsData()
 
-     /**
+    /**
      * Delete Data
      */
     public function delete()

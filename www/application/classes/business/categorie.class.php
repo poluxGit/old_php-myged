@@ -93,7 +93,7 @@ class Categorie extends Core\AbstractDBObject {
      */
     public function getCategoriesDataForDocument($pStrDocID)
     {
-        $lStrSQL = "SELECT cat_id,cat_title,cat_code,cat_desc FROM app_categories cat INNER JOIN app_asso_docs_cats ass ON cat.cat_id = ass.cat_id WHERE ass.doc_id = '$pStrDocID'";
+        $lStrSQL = "SELECT cat.cat_id as cat_id,cat.cat_title as cat_title,cat.cat_code as cat_code,cat.cat_desc as cat_desc FROM app_categories cat INNER JOIN app_asso_docs_cats ass ON cat.cat_id = ass.cat_id WHERE ass.doc_id = '$pStrDocID'";
         return $this->getDataFromSQLQuery($lStrSQL);
     }//end getCategoriesDataForDocument()
 

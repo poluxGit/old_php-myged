@@ -23,6 +23,7 @@
          HTMLItemUploadBox      = null,
          HTMLLogDiv             = null,
          HTMLMsgDiv             = null,
+         HTMLItemDialog         = null,
          /**
           * GUI Initialization
           * ----------------------------------------------------
@@ -41,11 +42,14 @@
              this.HTMLMainItem.append($('<BR/>'));
              _addHTMLDocumentTable();
              _addHTMLFilesTable();
+             _addHTMLDIVDialog();
 
              // Widget Init!
              this.HTMLItemUploadBox.uploadFilesWidget();
              this.HTMLItemTableDocuments.mygedDocumentTableWidget();
              this.HTMLItemTableFiles.mygedFilesTableWidget();
+             this.HTMLItemDialog.mygedDocumentDialogWidget();
+             this.HTMLItemUploadBox.on('uploadcomplete',$.proxy(_eventUploadFileComplete, this));
 
              // Default Mode
              _showDocumentView();
@@ -115,6 +119,13 @@
              return this.HTMLMsgDiv;
          },
          /**
+          * Return DivDialog HTMLItem
+          */
+         _getHtmlCreateDialog = function()
+         {
+             return this.HTMLItemDialog;
+         },
+         /**
           * _buildHTMLTitleContainer
           * ----------------------------------------------------
           */
@@ -151,15 +162,27 @@
 
          },
          /**
-          * _buildHTMLTitleContainer
+          * _addHTMLUploadBox
           * ----------------------------------------------------
           */
          _addHTMLUploadBox = function()
          {
              console.debug('MyGEDUI - MainController - Adding UploadBox (DIV#myged-doctable-container-uploadbox).');
-             var divUploadBox = $('<div>').attr('id','myged-doctable-container-uploadbox').text('Drop your files HERE');
+             var divUploadBox = $('<div>').attr('id','myged-doctable-container-uploadbox').text('Upload Box !');
              this.HTMLItemUploadBox = divUploadBox;
              this.HTMLMainItem.append(divUploadBox);
+
+         },
+         /**
+          * _addHTMLDIVDialog
+          * ----------------------------------------------------
+          */
+         _addHTMLDIVDialog = function()
+         {
+             console.debug('MyGEDUI - MainController - Adding Div (DIV#myged-container-dialog).');
+             var divDialog = $('<div>').attr('id','myged-container-dialog');
+             this.HTMLItemDialog = divDialog;
+             this.HTMLMainItem.append(divDialog);
          },
          /**
           * Build Main Document HTML Action Button Bar
@@ -184,9 +207,16 @@
               .attr('title','Visualiser les fichiers')
               .addClass('myged-documenttable-panel-button')
               .html("<image src='styles/icons/copy.png' width=20 height=20 />");
+
+              var buttonCreateNewDoc = $('<button>')
+                .attr('id','myged-panel-createDoc')
+                .attr('title','Créer un nouveau Document.')
+                .addClass('myged-documenttable-panel-button')
+                .html("<image src='styles/icons/book.png' width=20 height=20 />");
              // Refresh Documents Button!
              divButtonAction.append(buttonRefresh);
              divButtonAction.append(buttonViewFiles);
+             divButtonAction.append(buttonCreateNewDoc);
 
             // Add Button to HTML Page
             this.HTMLItemButtonToolbar = divButtonAction;
@@ -208,11 +238,11 @@
                             if(_isDocumentView() === true)
                             {
                                 $.when(this.HTMLItemTableDocuments.mygedDocumentTableWidget('refresh'))
-                                    .then($.MyGEDUI().showMessage('Documents rechargés ! Nb. Documents : '+this.HTMLItemTableDocuments.mygedDocumentTableWidget('nbDocuments')));
+                                    .done($.MyGEDUI().showMessage('Documents rechargés ! Nb. Documents : '+this.HTMLItemTableDocuments.mygedDocumentTableWidget('nbDocuments')));
                             }
                             else {
                                 $.when(this.HTMLItemTableFiles.mygedFilesTableWidget('refresh'))
-                                    .then($.MyGEDUI().showMessage('Fichiers rechargés ! Nb. Fichiers : '+this.HTMLItemTableFiles.mygedFilesTableWidget('nbFiles')));
+                                    .done($.MyGEDUI().showMessage('Fichiers rechargés ! Nb. Fichiers : '+this.HTMLItemTableFiles.mygedFilesTableWidget('nbFiles')));
                             }
                         }
                         ,this)
@@ -239,6 +269,17 @@
                         }
                         ,this)
                     );
+
+
+            // Binding Create New Doc Action !
+            $('#myged-panel-createDoc').click(
+                    $.proxy(
+                        function()
+                        {
+                            this.HTMLItemDialog.mygedDocumentDialogWidget('openDialog');
+                        }
+                        ,this)
+                    );
          },//end _addHTMLButtonsToolbar
          /**
           * Show Message
@@ -258,6 +299,24 @@
              this.HTMLMsgDiv.html(msg);
              this.HTMLMsgDiv.fadeIn(1200);
              this.HTMLMsgDiv.click($.proxy(function(){ this.HTMLMsgDiv.fadeOut(1200);  },this)); //this.HTMLMsgDiv.show();
+         }, //end _showMessage()
+
+         /**
+          * eventUploadFileComplete
+          */
+         _eventUploadFileComplete = function(event, arg1,arg2)
+         {
+             $.MyGEDUI().addLog('UploadComplete of file \''+arg1+'\' (id:'+arg2+')!');
+             _showFileView();
+             _refreshFilesTable();
+         }, //end eventUploadFileComplete()
+         _refreshDocumentsTable = function()
+         {
+             this.HTMLItemTableDocuments.mygedDocumentTableWidget('refresh');
+         },
+         _refreshFilesTable = function()
+         {
+             this.HTMLItemTableFiles.mygedFilesTableWidget('refresh');
          }
          ;
          return {
@@ -272,7 +331,7 @@
              },
              /* Define Title of Container */
              setTitleContainer: function (title) {
-                 console.debug('MyGEDUI - setTitleContainer - Starting!');
+                 console.debug('MyGEDUI - setTitleContainer with value\''+title+'\'.');
                  _getHtmlHeaderObj().html(title);
              },
              showMessage: function(msg)
@@ -281,12 +340,77 @@
              },
              showError: function(error)
              {
-
+                 // TODO TO Complete
+                 _showMessage(error);
              },
              addLog: function(itemStr)
              {
                  _addLogItems(itemStr);
-             }
+             },
+             refreshDocumentsTable: function(){
+                 _refreshDocumentsTable();
+             },
+             refreshFilesTable: function(){
+                 _refreshFilesTable();
+             },
+             openCreateDocumentUIFromFile:function(fileid){
+                 var ObjDialog = _getHtmlCreateDialog();
+                 ObjDialog.mygedDocumentDialogWidget('setFileID',fileid);
+                 ObjDialog.mygedDocumentDialogWidget('openDialog');
+             },
+             getTierData:function(tierID)
+             {
+                 var lArrResult = null;
+                 if(sessionStorage.getItem('tiers'))
+                 {
+                     var lArrTiers = JSON.parse(sessionStorage.getItem('tiers'));
+                     var idxTier = _.findIndex(lArrTiers,{tier_id:tierID});
+                     if(idxTier >= 0)
+                     {
+                         lArrResult = lArrTiers[idxTier];
+                     }
+                }
+                return lArrResult;
+             },
+             getCategorieData:function(CatID){
+                 var lArrResult = null;
+                 if(sessionStorage.getItem('cats'))
+                 {
+                     var lArrTiers = JSON.parse(sessionStorage.getItem('cats'));
+                     var idxTier = _.findIndex(lArrTiers,{cat_id:CatID});
+                     if(idxTier >= 0)
+                     {
+                         lArrResult = lArrTiers[idxTier];
+                     }
+                }
+                return lArrResult;
+             },
+             getTypeDocData:function(TypeDocID){
+                 var lArrResult = null;
+                 if(sessionStorage.getItem('tdocs'))
+                 {
+                     var lArrTiers = JSON.parse(sessionStorage.getItem('tdocs'));
+                     var idxTier = _.findIndex(lArrTiers,{tdoc_id:TypeDocID});
+                     if(idxTier >= 0)
+                     {
+                         lArrResult = lArrTiers[idxTier];
+                     }
+                }
+                return lArrResult;
+            },
+            getFilesData:function(FileID){
+                var lArrResult = null;
+                if(sessionStorage.getItem('files'))
+                {
+                    var lArrTiers = JSON.parse(sessionStorage.getItem('files'));
+                    var idxTier = _.findIndex(lArrTiers,{file_id:FileID});
+                    if(idxTier >= 0)
+                    {
+                        lArrResult = lArrTiers[idxTier];
+                    }
+               }
+               return lArrResult;
+            }
          }
      };
      $.MyGEDUI.defaults = {

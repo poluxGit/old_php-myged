@@ -76,7 +76,7 @@ CREATE TABLE app_documents
     doc_month VARCHAR(2) null,
     doc_day VARCHAR(2) null,
 	primary key (doc_id),
-        FOREIGN KEY(tdoc_id) REFERENCES app_typesdoc(tdoc_id)
+    FOREIGN KEY(tdoc_id) REFERENCES app_typesdoc(tdoc_id)
 
 );
 CREATE INDEX app_documents_doc_title_idx on app_documents
@@ -92,6 +92,11 @@ CREATE TABLE app_meta_tdoc
     meta_title VARCHAR(100) default 'MetaDef title - have to be define',
     meta_desc VARCHAR(4000),
     meta_datatype VARCHAR(20),
+    meta_pattern VARCHAR(100),
+    meta_required VARCHAR(1) default 'N',
+    meta_placeholder VARCHAR(100) default '',
+    meta_mask VARCHAR(100) default '',
+    meta_json_html_attributes VARCHAR(4000) default '{}',
     primary key (meta_id,tdoc_id),
     FOREIGN KEY(tdoc_id) REFERENCES app_typesdoc(tdoc_id)
 );

@@ -9,7 +9,6 @@
 namespace MyGED\Business;
 
 use MyGED\Application\App as App;
-
 use MyGED\Core as Core;
 
 /**
@@ -91,11 +90,11 @@ class Tier extends Core\AbstractDBObject {
      *
      * @param string $pStrDocID Document UID
      *
-     * @return array(categories)    Array of categories
+     * @return array(tierfieldsvalues)    Array of Tiers
      */
     public function getTiersDataForDocument($pStrDocID)
     {
-        $lStrSQL = "SELECT tier_id,tier_title,tier_code,tier_desc FROM app_tiers tie INNER JOIN app_asso_docs_tiers ass ON tie.tier_id = ass.tier_id WHERE ass.doc_id = '$pStrDocID'";
+        $lStrSQL = "SELECT tie.tier_id as tier_id,tie.tier_title as tier_title,tie.tier_code as tier_code,tie.tier_desc as tier_desc FROM app_tiers tie INNER JOIN app_asso_docs_tiers ass ON tie.tier_id = ass.tier_id WHERE ass.doc_id = '$pStrDocID'";
         return $this->getDataFromSQLQuery($lStrSQL);
     }//end getCategoriesDataForDocument()
 

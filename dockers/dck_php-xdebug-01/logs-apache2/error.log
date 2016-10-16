@@ -59,3 +59,23 @@ Cannot load Xdebug - it was already loaded
 [Sun Oct 09 20:27:48.740379 2016] [mpm_prefork:notice] [pid 7] AH00163: Apache/2.4.18 (Ubuntu) configured -- resuming normal operations
 [Sun Oct 09 20:27:48.740404 2016] [core:notice] [pid 7] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
 [Sun Oct 09 21:33:13.435118 2016] [:error] [pid 24] [client 172.19.0.1:56978] PHP Warning:  Unknown: POST Content-Length of 13278655 bytes exceeds the limit of 8388608 bytes in Unknown on line 0, referer: http://localhost:8080/php-myged/index_mckp-UI-02.html
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.19.0.2. Set the 'ServerName' directive globally to suppress this message
+Cannot load Xdebug - it was already loaded
+[Sat Oct 15 09:27:42.365317 2016] [core:warn] [pid 8] AH00098: pid file /var/run/apache2/apache2.pid overwritten -- Unclean shutdown of previous Apache run?
+[Sat Oct 15 09:27:42.368278 2016] [mpm_prefork:notice] [pid 8] AH00163: Apache/2.4.18 (Ubuntu) configured -- resuming normal operations
+[Sat Oct 15 09:27:42.368320 2016] [core:notice] [pid 8] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+[Sat Oct 15 09:48:24.160110 2016] [:error] [pid 17] [client 172.19.0.1:38548] PHP Warning:  Unknown: POST Content-Length of 15354909 bytes exceeds the limit of 8388608 bytes in Unknown on line 0, referer: http://localhost:8080/php-myged/index_mckp-UI-02.html
+[Sat Oct 15 10:49:47.498617 2016] [:error] [pid 12] [client 172.19.0.1:54272] PHP Warning:  Unknown: POST Content-Length of 15354909 bytes exceeds the limit of 8388608 bytes in Unknown on line 0, referer: http://localhost:8080/php-myged/index_mckp-UI-02.html
+[Sat Oct 15 11:14:37.387745 2016] [:error] [pid 17] [client 172.19.0.1:33256] PHP Warning:  Unknown: POST Content-Length of 15354909 bytes exceeds the limit of 8388608 bytes in Unknown on line 0, referer: http://localhost:8080/php-myged/index_mckp-UI-02.html
+[Sat Oct 15 11:14:44.891289 2016] [:error] [pid 18] [client 172.19.0.1:33296] PHP Warning:  Unknown: POST Content-Length of 15354909 bytes exceeds the limit of 8388608 bytes in Unknown on line 0, referer: http://localhost:8080/php-myged/index_mckp-UI-02.html
+[Sat Oct 15 11:15:03.718871 2016] [:error] [pid 19] [client 172.19.0.1:33378] PHP Warning:  Unknown: POST Content-Length of 15354909 bytes exceeds the limit of 8388608 bytes in Unknown on line 0, referer: http://localhost:8080/php-myged/index_mckp-UI-02.html
+[Sat Oct 15 11:15:31.631557 2016] [:error] [pid 13] [client 172.19.0.1:33518] PHP Warning:  Unknown: POST Content-Length of 15354909 bytes exceeds the limit of 8388608 bytes in Unknown on line 0, referer: http://localhost:8080/php-myged/index_mckp-UI-02.html
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.19.0.2. Set the 'ServerName' directive globally to suppress this message
+Cannot load Xdebug - it was already loaded
+[Sat Oct 15 11:26:18.600482 2016] [mpm_prefork:notice] [pid 8] AH00163: Apache/2.4.18 (Ubuntu) configured -- resuming normal operations
+[Sat Oct 15 11:26:18.600531 2016] [core:notice] [pid 8] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.19.0.2. Set the 'ServerName' directive globally to suppress this message
+Cannot load Xdebug - it was already loaded
+[Sat Oct 15 12:36:45.535915 2016] [core:warn] [pid 7] AH00098: pid file /var/run/apache2/apache2.pid overwritten -- Unclean shutdown of previous Apache run?
+[Sat Oct 15 12:36:45.538706 2016] [mpm_prefork:notice] [pid 7] AH00163: Apache/2.4.18 (Ubuntu) configured -- resuming normal operations
+[Sat Oct 15 12:36:45.538736 2016] [core:notice] [pid 7] AH00094: Command line: '/usr/sbin/apache2 -D FOREGROUND'

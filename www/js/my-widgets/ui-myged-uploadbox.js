@@ -11,7 +11,6 @@ $.widget('mgd.uploadFilesWidget',{
         // Defaults options
         APIBaseUrl:'php-myged/api/v1/',
         progress : false, // TO DEV v2
-
         // Callbacks
         upload:null,
         uploadComplete:null
@@ -80,16 +79,18 @@ $.widget('mgd.uploadFilesWidget',{
             url: this.options.APIBaseUrl+'file/',
             data: str,
             dataType: 'json',
-            success: $.proxy(this.uploadComplete, this)
+            success: $.proxy(this._uploadComplete, this)
         });
     },
     /**
      * Upload CallBack
      */
-    uploadComplete : function(data){
+    _uploadComplete : function(data){
         console.debug('uploadFilesWidget - Upload finish successfully (file:'+this.currentFile+').');
-        $(this.element).text(data);
+//        $(this.element).text(data);
         $(this.element).removeClass('myged-upload-dragOver');
+        $(this.element).trigger('uploadcomplete',[ this.currentFile, data ]);
+        console.debug('uploadFilesWidget - Upload finish successfully - uploadcomplete event triggered.');
     },
     /**
      * Drag & Drop Events Behaviour

@@ -34,6 +34,12 @@ class AppAPIRouter extends API
         static::setSpecificRoute('GET','#^document/[0-9A-Za-z\-]*/getcat/#', 'cb_GET_DocumentGetCategories', 'document');
         static::setSpecificRoute('GET','#^document/[0-9A-Za-z\-]*/gettiers/#', 'cb_GET_DocumentGetTiers', 'document');
 
+        // Getting all Documents !
+        static::setSpecificRoute('GET','#^document/#', 'cb_GET_AllDocuments', 'document');
+
+        // Create a new document
+        static::setSpecificRoute('POST','#^document/#', 'cb_POST_CreateDocument', 'document');
+
         static::setSpecificRoute('POST','#^document/[0-9A-Za-z\-]*/addtier/[0-9A-Za-z\-]*#', 'cb_POST_DocumentAddTier', 'document');
         static::setSpecificRoute('POST','#^document/[0-9A-Za-z\-]*/addcat/[0-9A-Za-z\-]*#', 'cb_POST_DocumentAddCat', 'document');
 
@@ -100,6 +106,119 @@ class AppAPIRouter extends API
 
         return $this->_response($lObjDoc->addTierToDocument($lStrTierUid),200);
     }//end cb_POST_DocumentAddTier()
+
+    /**
+     * CreateDocument
+     */
+    protected function cb_POST_CreateDocument() {
+
+        // Doc creation !
+        /* var MyGED\Business\Document */
+        $lObjDoc = new Business\Document();
+
+        $lObjDoc->setAttributeValue('doc_code',$_POST['doc_code']);
+        $lObjDoc->setAttributeValue('tdoc_id',$_POST['tdoc_id']);
+        $lObjDoc->setAttributeValue('doc_title',$_POST['doc_title']);
+        $lObjDoc->setAttributeValue('doc_desc',$_POST['doc_desc']);
+
+        $lObjDoc->store();
+        $lStrDocID = $lObjDoc->getId();
+        $lObjDoc->initializeMetadataFromTypeDoc();
+
+        $lObjDoc = new Business\Document($lStrDocID);
+
+        if(!empty($_POST['file_id'])){
+            $lObjDoc->linkFile($_POST['file_id']);
+        }
+
+        if(!empty($_POST['cat_id'])){
+            $lObjDoc->addCategorieToDocument($_POST['cat_id']);
+        }
+
+        if(!empty($_POST['tier_id'])){
+            $lObjDoc->addTierToDocument($_POST['tier_id']);
+        }
+
+        $lArrMetaDoc = Business\MetaDocument::getAllItemsDataFromDocument($lStrDocID);
+
+        $lObjDoc = new Business\Document($lStrDocID);
+
+        foreach($lArrMetaDoc as $lArrMetaAttr)
+        {
+            $lStrMetaId = $lArrMetaAttr['meta_id'];
+            if(array_key_exists($lStrMetaId,$_POST))
+            {
+                $lObjDoc->setMetaValueForDocument($lStrMetaId,$_POST[$lStrMetaId]);
+            }
+        }
+
+        return $this->_response($lStrDocID,200);
+        //return $this->_response($lObjDoc->addTierToDocument($lStrTierUid),200);
+    }//end cb_POST_CreateDocument()
+
+    /**
+     * cb_GET_AllDocuments
+     *
+     * @return array(DocumentsValues)   All Documents data & metadata
+     */
+    protected function cb_GET_AllDocuments() {
+
+        // Doc main data !
+        $lObjDocTmp = new Business\Document();
+        $lArrDocData = Business\Document::getAllClassItemsData();
+
+        $funcGetCatIdOnly = function($value){
+                return $value['cat_id'];
+        };
+        $funcGetTierIdOnly = function($value){
+                return $value['tier_id'];
+        };
+        $funcGetFileIdOnly = function($value){
+                return $value['file_id'];
+        };
+
+        // Add categories data!
+        foreach($lArrDocData as $lIntKey => $lArrDocAttr) {
+            $lObjCat = new Business\Categorie();
+            $lArrCat = $lObjCat->getCategoriesDataForDocument($lArrDocAttr['doc_id']);
+            $lArrCatIdOnly = array_map($funcGetCatIdOnly,$lArrCat);
+            $lArrDocData[$lIntKey]['cat_id']=implode('|',$lArrCatIdOnly);
+        }
+
+        // Add Tiers data!
+        foreach($lArrDocData as $lIntKey => $lArrDocAttr) {
+            $lObjTier = new Business\Tier();
+            $lArrTiers = $lObjTier->getTiersDataForDocument($lArrDocAttr['doc_id']);
+            $lArrTierIdOnly = array_map($funcGetTierIdOnly,$lArrTiers);
+            $lArrDocData[$lIntKey]['tier_id']=implode('|',$lArrTierIdOnly);
+        }
+
+        // Add Metadata of Document!
+        foreach($lArrDocData as $lIntKey => $lArrDocAttr) {
+            $lObjDoc = new Business\Document($lArrDocAttr['doc_id']);
+            $lArrMetaDoc = $lObjDoc->getAllMetadataDataInArray();
+
+            if(!empty($lArrMetaDoc)){
+                foreach($lArrMetaDoc as $lIntKeyMeta => $lArrMetaAttr) {
+                    $lArrDocData[$lIntKey][$lArrMetaAttr['meta_id']] = $lArrMetaAttr['mdoc_value'];
+                }
+            }
+        }
+
+        // Add Files of Document!
+        foreach($lArrDocData as $lIntKey => $lArrDocAttr) {
+            $lObjDoc = new Business\Document($lArrDocAttr['doc_id']);
+            $lArrFilesDoc = $lObjDoc->getAllFilesOfDocument();
+            $lArrFilesIdOnly = array_map($funcGetFileIdOnly,$lArrFilesDoc);
+
+            if(!empty($lArrFilesIdOnly)){
+                $lArrDocData[$lIntKey]['file_id'] = implode('|',$lArrFilesIdOnly);
+            }
+        }
+
+        return $this->_response($lArrDocData,200);
+
+    }//end cb_GET_AllDocuments()
 
     /**
      * CallBack Document AddTier in POST Request.

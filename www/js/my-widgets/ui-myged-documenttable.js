@@ -27,12 +27,12 @@ $.widget('myged.mygedDocumentTableWidget',{
      */
     _create : function(options)
     {
-        console.debug('mygedDocumentTableWidget#'+this.element.attr('id')+' - WIDGET _CREATE - Building Table Static Header');
+        console.debug('[ mygedDocumentTableWidget#'+this.element.attr('id')+' ] - WIDGET _CREATE - Building Table Static Header');
 
         $(this.element).empty();
         $(this.element).addClass(this.options.CssClassTABLE);
         var uiDataTableHeader = $('<thead>').addClass(this.options.CssClassTHEAD);
-        var uiDataTableTBody = $('<tbody>').addClass(this.options.CssClassTBODY).text('TO INIT');
+        var uiDataTableTBody = $('<tbody>').addClass(this.options.CssClassTBODY).text(' ');
 
         var uiDataTableHeaderColumns = '<th/><th><span id="myged-documenttable-column-type">Type</span></th><th><span id="myged-documenttable-column-title">Nom</span></th>';
         uiDataTableHeaderColumns += '<th><span id="myged-documenttable-column-code">Code</span></th>';
@@ -52,7 +52,7 @@ $.widget('myged.mygedDocumentTableWidget',{
      */
     _init: function()
     {
-        console.debug('mygedDocumentTableWidget#'+this.element.attr('id')+' - INIT - Refreshing Widget !');
+        console.debug('[ mygedDocumentTableWidget#'+this.element.attr('id')+' ] - INIT - Refreshing Widget !');
         this._refresh();
     },
 
@@ -86,7 +86,7 @@ $.widget('myged.mygedDocumentTableWidget',{
             }
             lIntNbDocs = docsArray.length;
         }
-        console.log('mygedDocumentTableWidget#'+this.element.attr('id')+' - nbDocuments => '+lIntNbDocs.toString()+' item(s).');
+        console.log('[ mygedDocumentTableWidget#'+this.element.attr('id')+' ] - nbDocuments => '+lIntNbDocs.toString()+' item(s).');
         return lIntNbDocs;
     },
     refresh: function(){
@@ -97,18 +97,33 @@ $.widget('myged.mygedDocumentTableWidget',{
      * RefreshingData
      */
     _refresh: function(){
-        console.debug('mygedDocumentTableWidget#'+this.element.attr('id')+' - Refreshing all Data !');
+        console.debug('[ mygedDocumentTableWidget#'+this.element.attr('id')+' ] - Refreshing all Data !');
         this._loadCategories();
         this._loadTiers();
+        this._loadTypeDocs();
         this._loadDocuments();
         //promiseDocs.always(this._callbackBindEventOnDocumentTable);
+    },
+    /**
+     * Generate and add a Row  the Files Table
+     */
+    _addDefaultRow:function(){
+        // Logging !
+        console.debug('[ mygedDocumentTableWidget#'+this.element.attr('id')+' ] - Adding the defaultrow.');
+        this.element.children('tbody').empty();
+        var newTR = $('<tr>');
+        var newTD = $('<td>').attr({
+            colspan:8
+        }).text('Aucun document trouvé!');
+        newTR.append(newTD);
+        this.element.children('tbody').append(newTR);
     },
     /**
      * Generate and add a Row to the Document Table
      */
     _addDataRow:function(idx,obj){
         // Logging !
-        console.debug('mygedDocumentTableWidget#'+this.element.attr('id')+' - Adding a row to Document Table.');
+        console.debug('[ mygedDocumentTableWidget#'+this.element.attr('id')+' ] - Adding a row to Document Table.');
 
         var CssClass = this.options.CssClassTR;
         // Alternate CSS class on rows
@@ -124,13 +139,32 @@ $.widget('myged.mygedDocumentTableWidget',{
                         .attr('id',obj.doc_id)
                         .addClass(CssClass);
 
+
+        var arrTypeDoc = $.MyGEDUI().getTypeDocData(obj.tdoc_id);
+        var arrCatDoc = $.MyGEDUI().getCategorieData(obj.cat_id);
+
+        var libCatDoc = '';
+        if(arrCatDoc)
+        {
+            libCatDoc = arrCatDoc.cat_title;
+        }
+
+
+        var arrTierDoc = $.MyGEDUI().getTierData(obj.tier_id);
+
+        var libTierDoc = '';
+        if(arrTierDoc)
+        {
+            libTierDoc = arrTierDoc.tier_title;
+        }
+
         var contentHTML = '';
         contentHTML += '<td><input type=checkbox name="chk'+obj.doc_id+'" class="myged-datarow-checkbox" /></td>';
-        contentHTML += '<td>'+obj.tdoc_id+'</td>';
+        contentHTML += '<td>'+arrTypeDoc.tdoc_title+'</td>';
         contentHTML += '<td>'+obj.doc_title+'</td>';
         contentHTML += '<td>'+obj.doc_code+'</td>';
-        contentHTML += '<td>FACTURE - TODEV</td>';
-        contentHTML += '<td> Tiers - TO DEV </td>';
+        contentHTML += '<td>'+libCatDoc+'</td>';
+        contentHTML += '<td>'+libTierDoc+'</td>';
         contentHTML += '<td>'+obj.doc_desc+'</td>';
         contentHTML += '<td class="myged-documenttable-row-column-actions"> <image src="styles/icons/glasses.png" width=20 height=20 class="myged-documenttable-rows-view-action" /> <image src="styles/icons/edit.png" width=20 height=20 /><image src="styles/icons/garbage.png" width=20 height=20 />  </td>';
 
@@ -140,7 +174,7 @@ $.widget('myged.mygedDocumentTableWidget',{
     }, //end _addDataRow
     _loadDocuments: function()
     {
-        console.debug('mygedDocumentTableWidget#'+this.element.attr('id')+' - Loading Documents...');
+        console.debug('[ mygedDocumentTableWidget#'+this.element.attr('id')+' ] - Loading Documents...');
         var promiseDocs = this._promiseGetAllDocuments();
         promiseDocs.done($.proxy(this._callbackPopulateDocumentTable,this));
     },
@@ -149,32 +183,39 @@ $.widget('myged.mygedDocumentTableWidget',{
      */
      _promiseGetAllDocuments: function() {
          return $.ajax({
-             url:this.options.APIBaseUrl +'document',
+             url:this.options.APIBaseUrl +'document/',
              type: 'GET',
              delay : 1,
              dataType: "json"});
      },
      _callbackPopulateDocumentTable: function(pDocsArray)
      {
-         console.debug('[ mygedDocumentTableWidget#'+this.element.attr('id')+' ] - Documents loaded (items count: '+pDocsArray.length.toString()+').');
-
-         this.element.children('tbody').empty();
-         $.each(pDocsArray,$.proxy(this._addDataRow,this));
-
-         // Store Data
-         var jSonDocs = JSON.stringify(pDocsArray);
-         this.element.data('docs',jSonDocs);
-
-         if(sessionStorage.getItem('docs'))
+         if(pDocsArray && pDocsArray.length > 0)
          {
-             sessionStorage.removeItem('docs');
-         }
-         sessionStorage.setItem('docs',jSonDocs);
+             console.debug('[ mygedDocumentTableWidget#'+this.element.attr('id')+' ] - Documents loaded (items count: '+pDocsArray.length.toString()+').');
+
+             this.element.children('tbody').empty();
+             $.each(pDocsArray,$.proxy(this._addDataRow,this));
+
+             // Store Data
+             var jSonDocs = JSON.stringify(pDocsArray);
+             this.element.data('docs',jSonDocs);
+
+             if(sessionStorage.getItem('docs'))
+             {
+                 sessionStorage.removeItem('docs');
+             }
+             sessionStorage.setItem('docs',jSonDocs);
+        }
+        else {
+            console.debug('[ mygedDocumentTableWidget#'+this.element.attr('id')+' ] - No Documents to load.');
+            this._addDefaultRow();
+        }
 
      },
      _callbackBindEventOnDocumentTable: function()
      {
-         console.debug('mygedDocumentTableWidget#'+this.element.attr('id')+' - Binding JS Events on Table rows...');
+         console.debug('[ mygedDocumentTableWidget#'+this.element.attr('id')+' ] - Binding JS Events on Table rows...');
          var tableTBodyDocRows = $('.myged-documenttable tbody TR');
 
          $(tableTBodyDocRows).on('click', this, function(event) {
@@ -212,7 +253,7 @@ $.widget('myged.mygedDocumentTableWidget',{
          });
          $(tableTBodyDocs).html(contentHTML);
          sessionStorage.setItem('documents',pDocsArray);*/
-         console.debug('mygedDocumentTableWidget#'+this.element.attr('id')+' - Binding JS Events on Table rows... done successfully !');
+         console.debug('[ mygedDocumentTableWidget#'+this.element.attr('id')+' ] - Binding JS Events on Table rows... done successfully !');
      },
      /**
       * Load Categories
@@ -267,5 +308,32 @@ $.widget('myged.mygedDocumentTableWidget',{
              sessionStorage.removeItem('tiers');
          }
          sessionStorage.setItem('tiers',jSonTiers);
+     },
+     /**
+      * Load TypeDoc
+      */
+     _loadTypeDocs: function(){
+         console.debug('[ mygedDocumentTableWidget#'+this.element.attr('id')+' ] - Loading Type Docs ...');
+         var promiseTDoc = this._promiseGetTypeDocs();
+         promiseTDoc.done($.proxy(this._callbackStoreTypeDocs,this));
+
+     },
+     _promiseGetTypeDocs: function() {
+         return $.ajax({
+             url:this.options.APIBaseUrl +'typedocument',
+             type: 'GET',
+             delay : 1,
+             dataType: "json"});
+     },
+     _callbackStoreTypeDocs: function(pTDocArray)
+     {
+         console.debug('[ mygedDocumentTableWidget#'+this.element.attr('id')+' ] - TypeDocument loaded (items count: '+pTDocArray.length.toString()+').');
+         var jSonTDocs = JSON.stringify(pTDocArray);
+         this.element.data('tiers',jSonTDocs);
+         if(sessionStorage.getItem('tdocs'))
+         {
+             sessionStorage.removeItem('tdocs');
+         }
+         sessionStorage.setItem('tdocs',jSonTDocs);
      },
 });

@@ -27,12 +27,12 @@ $.widget('myged.mygedFilesTableWidget',{
      */
     _create : function(options)
     {
-        console.debug('mygedFilesTableWidget#'+this.element.attr('id')+' - WIDGET _CREATE - Building Table Static Header');
+        console.debug('[ mygedFilesTableWidget#'+this.element.attr('id')+' ] - WIDGET _CREATE - Building Table Static Header');
 
         $(this.element).empty();
         $(this.element).addClass(this.options.CssClassTABLE);
         var uiDataTableHeader = $('<thead>').addClass(this.options.CssClassTHEAD);
-        var uiDataTableTBody = $('<tbody>').addClass(this.options.CssClassTBODY).text('TO INIT');
+        var uiDataTableTBody = $('<tbody>').addClass(this.options.CssClassTBODY).text(' ');
 
         var uiDataTableHeaderColumns = '';
         uiDataTableHeaderColumns += '<th><span id="myged-filestable-column-filename">Nom du fichier</span></th>';
@@ -51,7 +51,7 @@ $.widget('myged.mygedFilesTableWidget',{
      */
     _init: function()
     {
-        console.debug('mygedFilesTableWidget#'+this.element.attr('id')+' - INIT - Refreshing Widget !');
+        console.debug('[ mygedFilesTableWidget#'+this.element.attr('id')+' ] - INIT - Refreshing Widget !');
         this._refresh();
     },
 
@@ -85,7 +85,7 @@ $.widget('myged.mygedFilesTableWidget',{
             }
             lIntNbDocs = docsArray.length;
         }
-        console.log('mygedFilesTableWidget#'+this.element.attr('id')+' - nbFiles => '+lIntNbDocs.toString()+' item(s).');
+        console.log('[ mygedFilesTableWidget#'+this.element.attr('id')+' ] - nbFiles => '+lIntNbDocs.toString()+' item(s).');
         return lIntNbDocs;
     },
     refresh: function(){
@@ -96,15 +96,29 @@ $.widget('myged.mygedFilesTableWidget',{
      * RefreshingData
      */
     _refresh: function(){
-        console.debug('mygedFilesTableWidget#'+this.element.attr('id')+' - Refreshing all Data !');
+        console.debug('[ mygedFilesTableWidget#'+this.element.attr('id')+' ] - Refreshing all Data !');
         this._loadFiles();
+    },
+    /**
+     * Generate and add a Row  the Files Table
+     */
+    _addDefaultRow:function(){
+        // Logging !
+        console.debug('[ mygedFilesTableWidget#'+this.element.attr('id')+' ] - Adding the defaultrow to Files Table.');
+        this.element.children('tbody').empty();
+        var newTR = $('<tr>');
+        var newTD = $('<td>').attr({
+            colspan:4
+        }).text('Aucun fichier trouvé!');
+        newTR.append(newTD);
+        this.element.children('tbody').append(newTR);
     },
     /**
      * Generate and add a Row to the Files Table
      */
     _addDataRow:function(idx,obj){
         // Logging !
-        console.debug('mygedFilesTableWidget#'+this.element.attr('id')+' - Adding a row to Files Table.');
+        console.debug('[ mygedFilesTableWidget#'+this.element.attr('id')+' ] - Adding a row to Files Table.');
 
         var CssClass = this.options.CssClassTR;
         // Alternate CSS class on rows
@@ -135,7 +149,7 @@ $.widget('myged.mygedFilesTableWidget',{
     }, //end _addDataRow
     _loadFiles: function()
     {
-        console.debug('mygedFilesTableWidget#'+this.element.attr('id')+' - Loading Files...');
+        console.debug('[ mygedFilesTableWidget#'+this.element.attr('id')+' ] - Loading Files...');
         var promiseDocs = this._promiseGetAllFiles();
         promiseDocs.done($.proxy(this._callbackPopulateFilesTable,this)).always($.proxy(this._callbackBindEventOnFilesTable,this));
     },
@@ -151,21 +165,26 @@ $.widget('myged.mygedFilesTableWidget',{
      },
      _callbackPopulateFilesTable: function(pDocsArray)
      {
-         console.debug('[ mygedFilesTableWidget#'+this.element.attr('id')+' ] - Documents loaded (items count: '+pDocsArray.length.toString()+').');
+         if(pDocsArray){
+             console.debug('[ mygedFilesTableWidget#'+this.element.attr('id')+' ] - Documents loaded (items count: '+pDocsArray.length.toString()+').');
 
-         this.element.children('tbody').empty();
-         $.each(pDocsArray,$.proxy(this._addDataRow,this));
+             this.element.children('tbody').empty();
+             $.each(pDocsArray,$.proxy(this._addDataRow,this));
 
-         // Store Data
-         var jSonDocs = JSON.stringify(pDocsArray);
-         this.element.data('files',jSonDocs);
+             // Store Data
+             var jSonDocs = JSON.stringify(pDocsArray);
+             this.element.data('files',jSonDocs);
 
-         if(sessionStorage.getItem('files'))
-         {
-             sessionStorage.removeItem('files');
-         }
-         sessionStorage.setItem('files',jSonDocs);
-
+             if(sessionStorage.getItem('files'))
+             {
+                 sessionStorage.removeItem('files');
+             }
+             sessionStorage.setItem('files',jSonDocs);
+        }
+        else {
+            console.debug('[ mygedFilesTableWidget#'+this.element.attr('id')+' ] - No File to load.');
+            this._addDefaultRow();
+        }
      },
      _callbackBindEventOnFilesTable: function()
      {
@@ -187,10 +206,15 @@ $.widget('myged.mygedFilesTableWidget',{
          // Download buttons!
          var btnDlImg = $('.myged-filestable-rows-download-action');
 
-         $(btnDlImg).on('click', function(event) {
+         $(btnDlImg).on('click', $.proxy(function(event) {
              var docid = $(event.delegateTarget).parent().parent().attr('id');
              console.debug('Action Download File called on row for file "' + docid + '".');
-         });
+             $.ajax({
+                 url:this.options.APIBaseUrl +'file/'+docid,
+                 type: 'GET',
+                 delay : 1,
+                 dataType: "json"});
+         },this));
 
          // CreateDoc buttons!
          var btnCreateDocImg = $('.myged-filestable-rows-createDoc-action');
@@ -198,6 +222,7 @@ $.widget('myged.mygedFilesTableWidget',{
          $(btnCreateDocImg).on('click', function(event) {
              var docid = $(event.delegateTarget).parent().parent().attr('id');
              console.debug('Action CreateDoc File called on row for file "' + docid + '".');
+             $.MyGEDUI().openCreateDocumentUIFromFile(docid);
          });
 
          // Delete buttons!
@@ -207,11 +232,10 @@ $.widget('myged.mygedFilesTableWidget',{
              var docid = $(event.delegateTarget).parent().parent().attr('id');
              console.debug('Action Delete File called on row for file "' + docid + '".');
              $.ajax({
-                 url:this.options.APIBaseUrl +'file/'+docid,
+                 url:this.options.APIBaseUrl +'file/'+docid+'/',
                  type: 'DELETE',
                  delay : 1,
                  dataType: "json"});
          },this));
-
      },
 });
